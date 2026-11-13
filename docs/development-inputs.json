@@ -41,9 +41,9 @@
       "sha256": "c73220fe74f550709b1c62e3c9bcd0540e2eba8a89410b7fcdd84501da5ddead"
     },
     {
-      "bytes": 39006,
+      "bytes": 41221,
       "path": "assets/js/theme-controller.js",
-      "sha256": "fed65e9a3d9120ea3e861f99813c020f3d4744ef5fc9b13afb17e2725f34266b"
+      "sha256": "5d3cd98bcca0f6881c8bb7ffd96740102f99bc0ed270571762947da52f058ab3"
     },
     {
       "bytes": 6980,
@@ -186,9 +186,9 @@
       "sha256": "3967317f7d96672de57f09950e4df61d510166576f62bfb97cc6bd254d709fe8"
     },
     {
-      "bytes": 4407,
+      "bytes": 4650,
       "path": "includes/Runtime/class-appearance-endpoint.php",
-      "sha256": "e4584fb020b3b0b833fd44fc9da4d4237312c6374f3af26967af96fbf101a4bb"
+      "sha256": "a661a749700d47931f18d8ff5584d6c315f3e87e8ce4d84a9fd96e0545dcbc03"
     },
     {
       "bytes": 2819,
@@ -201,9 +201,9 @@
       "sha256": "e43049bf10606a4d0ca7cca3c4ec7f578faa9bcba4d1ae9b20756049ffa9dd67"
     },
     {
-      "bytes": 4175,
+      "bytes": 4689,
       "path": "includes/Runtime/class-playback-registry.php",
-      "sha256": "c98548e8269a55e30c8477263ad79e13318538ae3718a6b635bb73e1899e7832"
+      "sha256": "2df1411513adce093cdb75a1616de1d294e6909d27073d7d5e26fd8a6d6138ab"
     },
     {
       "bytes": 924,
@@ -211,14 +211,14 @@
       "sha256": "eaea51cadbbd6601d354cf699c54bc5df780602abbde82d6e6095eb5b9abd51a"
     },
     {
-      "bytes": 3917,
+      "bytes": 5341,
       "path": "includes/Runtime/class-theme-attachment.php",
-      "sha256": "5cd089b3ec963bb24992e7cf39cb06bcdfafa512fbb947bdfa7df4139599abf2"
+      "sha256": "ec96fb6e7ba507d328cf0cbd8cac2b4af356ea5da744f69b466d85c3c6677389"
     },
     {
-      "bytes": 2951,
+      "bytes": 8709,
       "path": "includes/Runtime/class-wordpress-context.php",
-      "sha256": "0b6a4996f5a0f8fd10a8a9d42ddb5eaf4e2c07c6bb88b3ff950a5e1f159be547"
+      "sha256": "9092e00c2106aa014a3f237594a966af3758bf32bb8de4bba0d3b3c21d2ff76c"
     },
     {
       "bytes": 816,
@@ -381,9 +381,9 @@
       "sha256": "34b4df1c2bcf8f8778f6755525d620a3f57bce8b1ccb86c8dd5fc0424671446c"
     },
     {
-      "bytes": 5586,
+      "bytes": 5677,
       "path": "includes/class-plugin.php",
-      "sha256": "373c5726b7f83cfa48e8fde204ea3264a4f6899e52e6c7a408f76a8636bfe199"
+      "sha256": "584a26b6b0df790c7f3aad24deb2937e3492381546ee75be6f1be45f448e4d16"
     },
     {
       "bytes": 662,
@@ -453,7 +453,7 @@
     {
       "bytes": 1655,
       "path": "papijo-h5p-themer-wordpress.php",
-      "sha256": "eb9ea84be21b0366c0ff60ec68bfb1001087a70312f1c5d6f74a6ae30e5c44a9"
+      "sha256": "2dc5d3970636a1febe66156a5b7410f7a2a1e5e639c4d16b2802e1acd5118aa4"
     },
     {
       "bytes": 14381,
@@ -461,15 +461,15 @@
       "sha256": "16195cd52281a34d2d59132fc2ddc69158ac5edcbf52f139b4c44fc951ead65a"
     },
     {
-      "bytes": 9266,
+      "bytes": 12018,
       "path": "readme.txt",
-      "sha256": "a4fb6747b4528d4f0f8ac1bf8ca14f4ab80af6c135143c903df31577400bec2a"
+      "sha256": "5ff9b220f7abf3e57517c753b60e7a30612fb9817254a8b9cdb330db01bdd0c9"
     }
   ],
   "format": 1,
-  "inputs_sha256": "f19629b0c8ea1439675cc1f583a9f59e6ba6b586ba421e12224f891cf17fdf1f",
+  "inputs_sha256": "785da82bea97c56fb05f521a10f5d50a1f8d009893adabeafd5aec645d462d57",
   "requires_php": "7.4",
   "requires_wordpress": "6.5",
   "slug": "papijo-h5p-themer-wordpress",
-  "version": "0.1.1"
+  "version": "0.2.0"
 }

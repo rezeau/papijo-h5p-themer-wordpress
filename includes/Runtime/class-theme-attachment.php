@@ -6,9 +6,10 @@ use Papijo\H5PThemerWordPress\Compatibility\Runtime_Policy;
 final class Theme_Attachment {
 
 	const HANDLE = 'pjh5pwp-theme-controller';
-	const ASSET_VERSION = '0.1.0-readiness-3';
+	const ASSET_VERSION = '0.2.0-beta.1-viewer-1';
 	private $playback;
 	private $enabled;
+	private $admin_grant;
 	public function __construct( Playback_Registry $playback, ?callable $enabled = null ) {
 		$this->playback = $playback;
 		$this->enabled = $enabled ?: array( Runtime_Policy::class, 'configured' );
@@ -22,6 +23,8 @@ final class Theme_Attachment {
 		if ( ! $this->enabled() ) { return; }
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ), 5 );
 		add_action( 'wp_footer', array( $this, 'footer' ), 19 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue' ), 5 );
+		add_action( 'admin_footer', array( $this, 'admin_footer' ), 19 );
 		add_filter( 'print_h5p_content', array( $this, 'mark' ), PHP_INT_MAX, 2 );
 		add_filter( 'script_loader_tag', array( $this, 'tag' ), PHP_INT_MAX, 2 );
 	}
@@ -32,8 +35,24 @@ final class Theme_Attachment {
 		$endpoint = admin_url( 'admin-ajax.php' );
 		$origin = WordPress_Context::origin( $endpoint );
 		if ( null === $origin || $origin !== WordPress_Context::origin( home_url( '/' ) ) ) { return null; }
-		return array( 'version' => 1, 'endpoint' => $endpoint, 'players' => $players );
+		$manifest = array( 'version' => 1, 'endpoint' => $endpoint, 'players' => $players );
+		if ( function_exists( 'is_admin' ) && is_admin() ) {
+			$grant = $this->admin_grant();
+			if ( null === $grant || ! in_array( $grant['content_id'], array_column( $players, 'content_id' ), true ) ) { return null; }
+			$manifest['admin_viewer'] = $grant;
+		}
+		return $manifest;
 	}
+	private function admin_grant() {
+		$id = WordPress_Context::admin_viewer_id();
+		if ( null === $id || ! function_exists( 'wp_create_nonce' ) ) { return null; }
+		if ( ! is_array( $this->admin_grant ) || $this->admin_grant['content_id'] !== $id ) {
+			$this->admin_grant = array( 'content_id' => $id, 'nonce' => wp_create_nonce( WordPress_Context::admin_nonce_action( $id ) ) );
+		}
+		return $this->admin_grant;
+	}
+	public function admin_enqueue() { if ( null !== WordPress_Context::admin_viewer_id() ) { $this->enqueue(); } }
+	public function admin_footer() { if ( null !== WordPress_Context::admin_viewer_id() ) { $this->footer(); } }
 	public function enqueue() {
 		if ( ! $this->eligible() ) { return; }
 		wp_enqueue_style( 'pjh5pwp-runtime-readiness', plugins_url( 'assets/css/runtime-readiness.css', PJH5PWP_FILE ), array(), self::ASSET_VERSION );
@@ -66,6 +85,13 @@ final class Theme_Attachment {
 		if ( self::HANDLE !== $handle ) { return $tag; }
 		if ( ! $this->eligible() || 1 !== substr_count($tag, '<script ') ||
 			preg_match('/\s(?:async|defer)(?:\s|=|>)/i', $tag) || preg_match('/\stype\s*=\s*[\x22\x27]?module/i', $tag) || strpos($tag, 'data-pjh5pwp-') !== false ) { return ''; }
-		return str_replace('<script ', '<script data-pjh5pwp-bootstrap="1" ', $tag);
+		$attributes = ' data-pjh5pwp-bootstrap="1"';
+		if ( function_exists( 'is_admin' ) && is_admin() ) {
+			$grant = $this->admin_grant();
+			if ( null === $grant ) { return ''; }
+			$attributes .= ' data-pjh5pwp-admin-viewer="' . esc_attr( $grant['content_id'] ) .
+				'" data-pjh5pwp-admin-nonce="' . esc_attr( $grant['nonce'] ) . '"';
+		}
+		return str_replace('<script ', '<script' . $attributes . ' ', $tag);
 	}
 }

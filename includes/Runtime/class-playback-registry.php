@@ -6,12 +6,14 @@ final class Playback_Registry {
 
 	private $admission;
 	private $frontend;
+	private $content_allowed;
 	private $candidates = array();
 	private $seen = array();
 	private $markup = array();
-	public function __construct( Runtime_Admission $admission, callable $frontend ) {
+	public function __construct( Runtime_Admission $admission, callable $frontend, ?callable $content_allowed = null ) {
 		$this->admission = $admission;
 		$this->frontend = $frontend;
+		$this->content_allowed = $content_allowed ?: static function () { return true; };
 	}
 	public function register() { add_filter( 'print_h5p_content', array( $this, 'observe' ), PHP_INT_MAX, 2 ); }
 	/** Public assets may precede discovery; reuse the same policy and context. */
@@ -24,6 +26,8 @@ final class Playback_Registry {
 		$id = $content['id'] ?? null;
 		if ( ! ( is_int( $id ) || is_string( $id ) ) || ! preg_match( '/\A[1-9][0-9]{0,9}\z/', (string) $id ) ) { return $html; }
 		$id = (string) $id;
+		try { if ( true !== call_user_func( $this->content_allowed, $content ) ) { return $html; } }
+		catch ( \Throwable $error ) { return $html; }
 		// Repeated IDs cannot be mapped safely to H5P's shared cid-N settings/iframe IDs.
 		if ( isset( $this->seen[ $id ] ) ) { unset( $this->candidates[ $id ] ); return $html; }
 		$this->seen[ $id ] = true;
@@ -61,6 +65,10 @@ final class Playback_Registry {
 	public function candidates() {
 		if ( ! $this->permitted() ) { return array(); }
 		$items = $this->candidates;
+		foreach ( $items as $id => $item ) {
+			try { if ( true !== call_user_func( $this->content_allowed, array( 'id' => (string) $id ) ) ) { unset( $items[$id] ); } }
+			catch ( \Throwable $error ) { unset( $items[$id] ); }
+		}
 		ksort( $items, SORT_STRING );
 		return array_values( $items );
 	}

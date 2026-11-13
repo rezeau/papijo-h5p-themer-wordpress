@@ -1,7 +1,7 @@
 # Offline release tooling
 
-Current stable release prepared: **0.1.1**, under Stage F8 local preparation authorization.
-See [F8 preparation](stage-f8-release.md) and [current metadata](release-candidate.json).
+Current stable release candidate: **0.2.0**, under [G4 stable preparation authorization](stage-g4-release.md). Published stable 0.1.1 is unchanged.
+See [G4 preparation](stage-g4-release.md), [release notes](release-notes-0.2.0.md) and [current metadata](release-candidate.json).
 Deployment and publication require separate approval. The original failed F3
 preservation check and F6 documented risk acceptance are retained without alteration.
 
@@ -9,6 +9,11 @@ Beta.1, beta.2 and beta.3 artifacts and evidence are preserved. Frozen assertion
 `release-candidate-beta1.json` / `release-e4-inputs.json`,
 `release-candidate-beta2.json` / `release-f3-inputs.json` and
 `release-candidate-beta3.json` / `release-f6-inputs.json`.
+Accepted G2 metadata/inputs are frozen in `release-candidate-0.2.0-beta.1.json`
+and `release-g2-inputs.json`; all 91 non-metadata/documentation payloads remain identical.
+G4 records 17/17 owner-reported Firefox passes, scoped resolution of the two viewing
+limitations, unchanged readiness and accepted G3A database uncertainty. It excludes
+the nine database/lifecycle jobs under the no-database-changes constraint.
 Current checks separately require equality of stable audited inputs,
 `development-inputs.json` and `release-candidate.json`. F8 changes only version and
 release metadata/documentation and their checks. F8 excludes all nine native
@@ -31,7 +36,7 @@ backups, database snapshots and generated artifacts.
 ## Read-only input audit
 
 ```text
-python -B tools/package_release.py audit --expect-version 0.1.1
+python -B tools/package_release.py audit --expect-version 0.2.0
 ```
 
 This checks all 93 working-source files, exact production inventory (including unreviewed files
@@ -55,7 +60,7 @@ Requesting a version different from the current source fails; the tool never rew
 
 ## Authorized local build command
 
-The F8 request authorizes stable local builds. Installation requires separate approval:
+The G4 request authorizes stable 0.2.0 local builds. Installation requires separate approval:
 
 ```text
 python -B tools/package_release.py build --expect-version <approved-version> --approved-manifest <reviewed-inputs.json> --output-dir <fresh-output-directory>

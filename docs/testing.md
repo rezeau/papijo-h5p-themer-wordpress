@@ -1,5 +1,28 @@
 # Automated test inventory
 
+## Stage G4 stable 0.2.0 preparation
+
+G4 preserves the accepted beta.1 implementation and runs the current 45 non-database
+commands on PHP 7.4.33, 8.3.18 and 8.4.22, plus the audited public-source projection.
+The complete current inventory is 54 commands when the nine native jobs are opted in.
+All nine database/lifecycle suites are explicitly excluded under G4's prohibition
+on database/installation changes; an exclusion is not a PASS. Version-specific release
+checks retain independent frozen beta.1 assertions and verify stable promotion.
+See [G4 results and exclusions](stage-g4-release.md). Owner-reported 17/17 G3B Firefox
+passes are recorded separately and were not independently reproduced by Codex.
+The existing 15-second readiness limitation and accepted G3A database uncertainty remain.
+Historical checkpoint records below retain their original scope.
+
+## Stage G2 administration-viewer candidate
+
+Version **0.2.0-beta.1** adds focused PHP access/transport/attachment and JavaScript
+admin-context tests. The existing HTTP harness now checks real WordPress nonces
+and authenticated cookie/session isolation for this route. All existing frontend
+security cases are retained. Native database suites are excluded; no database
+inputs are supplied for this context-only task.
+See [implementation and pending Firefox scenarios](stage-g2-admin-viewer.md).
+Historical F8 and earlier results below are not new beta acceptance.
+
 ## Stage F8 stable 0.1.1 preparation
 
 F8 promotes the accepted beta.3 baseline using metadata changes only. Current

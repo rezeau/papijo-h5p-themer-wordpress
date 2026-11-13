@@ -1,8 +1,15 @@
 # Installation and acceptance guide
 
-Stable release prepared: **0.1.1**, with [plugin-owned InnoDB storage](owned-storage-stage-f2.md).
-Use the [F8 release record](stage-f8-release.md), [draft notes](release-notes-0.1.1.md)
-and [current metadata](release-candidate.json). Beta.2 passed 25/25 user-reported
+Stable candidate prepared: **0.2.0**, from accepted 0.2.0-beta.1 without functional
+changes. See [G4 verification](stage-g4-release.md), [release notes](release-notes-0.2.0.md)
+and [current metadata](release-candidate.json). The owner reported 17/17 G3B Firefox
+tests PASS; Codex did not independently reproduce them or deploy stable bytes.
+G3A database uncertainty is an ACCEPTED RESIDUAL RISK — NOT A RELEASE BLOCKER;
+full-database preservation is not a PASS. The 15-second readiness limit is unchanged.
+Deployment/publication require separate approval. Storage remains
+[plugin-owned InnoDB](owned-storage-stage-f2.md).
+
+Historical 0.1.1 acceptance: Beta.2 passed 25/25 user-reported
 Firefox tests in F4; beta.3 passed 3/3 user-reported Firefox smoke tests in F7.
 Codex did not independently reproduce those manual results or install the stable ZIP.
 The original failed F3 preservation observation is retained; its residual uncertainty
@@ -72,12 +79,20 @@ Backdrop Density metadata is ignored. Export is not a complete storage backup.
 
 ## Accepted runtime limitations
 
-Personal Theme and Density preferences apply to supported H5P content embedded in
-ordinary WordPress pages. Papi Jo styling is not currently applied in the WordPress
-H5P administration viewing interface or Subscriber Profile > View H5P content.
-Both contexts are accepted, deferred limitations. The initial 15-second readiness
-budget may also expire, leaving native fallback without automatic personal styling;
-this existing limitation remains accepted and unresolved.
+Personal Theme and Density preferences apply to supported ordinary-page playback
+and the exact official H5P administration activity viewer
+`wp-admin/admin.php?page=h5p&task=show&id=<ID>`. Administrator and authorized Subscriber
+viewing limitations are resolved only in that accepted context. Arbitrary wp-admin
+pages and the separate external `h5p_embed` endpoint remain unsupported. Unsupported
+legacy H5P API content is excluded. The initial 15-second readiness budget may expire,
+leaving native fallback without automatic personal styling; this limitation remains
+unresolved and slow-network readiness has not been fully verified.
+
+G3A retained all 28 database schemas, Papi Jo Themes/defaults, personal preferences,
+role permissions and owned tables. The wp_options row fingerprint changed, and its
+reported next AUTO_INCREMENT changed from 262 to 263, with unverified attribution.
+The owner accepts this uncertainty for stable 0.2.0: **ACCEPTED RESIDUAL RISK — NOT
+A RELEASE BLOCKER**. This does not establish full-database preservation PASS.
 
 ## Target-site pilot checks
 

@@ -83,9 +83,36 @@
     } else { return null; }
     return { suspended: false, colors: palette, density: a.density.selection };
   }
+  function adminGrant(win) {
+    try {
+      var scripts = win.document.querySelectorAll('script[data-pjh5pwp-bootstrap="1"]');
+      if (scripts.length !== 1) { return null; }
+      return { content_id: scripts[0].getAttribute('data-pjh5pwp-admin-viewer'),
+        nonce: scripts[0].getAttribute('data-pjh5pwp-admin-nonce') };
+    } catch (error) { return null; }
+  }
+  function adminContext(win, grant) {
+    try {
+      if (!exact(grant, ['content_id', 'nonce']) || !matches(grant.content_id, /^[1-9][0-9]{0,9}$/) ||
+          !matches(grant.nonce, /^[a-f0-9]{10}$/)) { return false; }
+      var url = new win.URL(win.location.href), parts = url.search.slice(1).split('&'), head = adminGrant(win);
+      return url.pathname.endsWith('/wp-admin/admin.php') && !url.hash && parts.length === 3 &&
+        parts.every(function (part) { return /^(?:page=h5p|task=show|id=[1-9][0-9]{0,9})$/.test(part); }) &&
+        Array.from(url.searchParams.keys()).length === new Set(url.searchParams.keys()).size &&
+        url.searchParams.get('page') === 'h5p' && url.searchParams.get('task') === 'show' &&
+        url.searchParams.get('id') === grant.content_id && head !== null &&
+        head.content_id === grant.content_id && head.nonce === grant.nonce;
+    } catch (error) { return false; }
+  }
+  function pageContext(win, grant) {
+    return /\/wp-admin(?:\/|$)/.test(win.location.pathname) ? adminContext(win, grant) : grant === undefined;
+  }
   function manifestValid(win, manifest) {
-    if (!exact(manifest, ['version', 'endpoint', 'players']) || manifest.version !== 1 ||
+    var admin = manifest && Object.prototype.hasOwnProperty.call(manifest, 'admin_viewer');
+    if (!exact(manifest, admin ? ['version', 'endpoint', 'players', 'admin_viewer'] : ['version', 'endpoint', 'players']) || manifest.version !== 1 ||
         !Array.isArray(manifest.players) || !manifest.players.length || manifest.players.length > 64) { return false; }
+    if (admin && (!adminContext(win, manifest.admin_viewer) ||
+        !manifest.players.some(function (p) { return p && p.content_id === manifest.admin_viewer.content_id; }))) { return false; }
     var endpoint = new win.URL(manifest.endpoint, win.location.href), seen = new Set();
     if (endpoint.origin !== win.location.origin || !/^https?:$/.test(endpoint.protocol) ||
         endpoint.username || endpoint.password || endpoint.search || endpoint.hash ||
@@ -99,7 +126,8 @@
   }
   function bootstrap(win) {
     var doc = win.document;
-    if (win.top !== win || win.H5PEditor || /\/wp-admin(?:\/|$)/.test(win.location.pathname) ||
+    var grant = /\/wp-admin(?:\/|$)/.test(win.location.pathname) ? adminGrant(win) : undefined;
+    if (win.top !== win || win.H5PEditor || !pageContext(win, grant) ||
         doc.readyState !== 'loading' || !win.requestAnimationFrame || !win.cancelAnimationFrame ||
         !win.performance || !win.fetch || !win.MutationObserver || !win.AbortController) { return null; }
     var entries = new Map(), known = new Map(), jobs = new Map(), controller = null, failure = function () {}, closed = false, stopped = false;
@@ -224,7 +252,7 @@
   function create(win, manifest, readiness) {
     try {
       if (!manifestValid(win, manifest) || win.top !== win || win.H5PEditor ||
-          /\/wp-admin(?:\/|$)/.test(win.location.pathname) ||
+          !pageContext(win, manifest.admin_viewer) ||
           !win.fetch || !win.crypto || !win.crypto.getRandomValues || !win.MutationObserver ||
           !win.AbortController || !win.performance) { return null; }
     } catch (error) { return null; }
@@ -421,6 +449,7 @@
       observers.set(realm, { node: realm.documentElement, observer: observer, remove: listen(realm, 'load', function () { scan(); retries(); }, true) });
     }
     function scan() {
+      if (!pageContext(win, manifest.admin_viewer)) { invalidate(); return; }
       if (!active) { return; }
       if (descriptor && now() >= descriptor.deadline) { expire(); return; }
       var found = new Map(), realms = new Set([doc]), frameSet = new Set();
@@ -547,7 +576,10 @@
         return win.fetch(manifest.endpoint, { method: 'POST', credentials: 'same-origin', cache: 'no-store',
           mode: 'same-origin', redirect: 'error', referrerPolicy: 'same-origin', signal: abort.signal,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 'X-PJH5PWP-Request': 'appearance-v1' },
-          body: 'action=pjh5pwp_appearance&request_id=' + id });
+          body: 'action=pjh5pwp_appearance&request_id=' + id + (manifest.admin_viewer ?
+            '&admin_content_id=' + manifest.admin_viewer.content_id +
+            '&admin_nonce=' + manifest.admin_viewer.nonce +
+            '&admin_players=' + encodeURIComponent(manifest.players.map(function (p) { return p.content_id; }).join(',')) : '') });
       }).then(function (response) {
         if (!response.ok || response.redirected || !/^application\/json(?:;|$)/i.test(response.headers.get('Content-Type') || '')) { throw new Error('response'); }
         return response.text();

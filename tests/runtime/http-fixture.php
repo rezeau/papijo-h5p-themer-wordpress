@@ -3,7 +3,7 @@
 if ( 'cli-server' !== PHP_SAPI || ! in_array( $_SERVER['REMOTE_ADDR'] ?? '', array( '127.0.0.1', '::1' ), true ) ) { exit; }
 $wp_source = getenv( 'PJH5PWP_TEST_WP_SOURCE' );
 if ( ! $wp_source || ! is_file( $wp_source . '/wp-includes/pluggable.php' ) ) { http_response_code( 500 ); exit; }
-define( 'ABSPATH', $wp_source . '/' ); define( 'WPINC', 'wp-includes' ); define( 'HOUR_IN_SECONDS', 3600 );
+define( 'ABSPATH', $wp_source . '/' ); define( 'WPINC', 'wp-includes' ); define( 'HOUR_IN_SECONDS', 3600 ); define( 'DAY_IN_SECONDS', 86400 );
 define( 'LOGGED_IN_COOKIE', 'pjh5pwp_disposable_session' );
 foreach ( array( 'AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE' ) as $scheme ) {
 	define( $scheme . '_KEY', 'disposable-fixture-key-' . $scheme ); define( $scheme . '_SALT', 'disposable-fixture-salt-' . $scheme );
@@ -24,11 +24,30 @@ function wp_doing_ajax() { return true; }
 function is_ssl() { return false; }
 require $wp_source . '/wp-includes/pluggable.php';
 function get_current_user_id() { return (int) wp_validate_auth_cookie( $_COOKIE[ LOGGED_IN_COOKIE ] ?? '', 'logged_in' ); }
+function wp_get_current_user() { return (object) array( 'ID' => get_current_user_id() ); }
+function wp_get_session_token() { $cookie=wp_parse_auth_cookie('','logged_in');return $cookie['token']??''; }
+function current_user_can( $cap ) { $id=get_current_user_id();return in_array($id,array(1,2),true) && ('view_h5p_contents'===$cap || (1===$id && 'view_others_h5p_contents'===$cap)); }
 function home_url( $path = '/' ) { return 'http://' . $_SERVER['HTTP_HOST'] . $path; }
 function admin_url() { return home_url( '/wp-admin/' ); }
 function nocache_headers() { header( 'Cache-Control: no-cache' ); }
 function wp_send_json( $data, $status = 200 ) { http_response_code( $status ); header( 'Content-Type: application/json; charset=UTF-8' ); echo json_encode( $data ); exit; }
 require dirname( __DIR__, 2 ) . '/includes/runtime-wordpress.php';
+$h5p_source=getenv('PJH5PWP_TEST_H5P_SOURCE');
+if($h5p_source) {
+	define('WP_PLUGIN_DIR',dirname($h5p_source));
+	require_once $wp_source.'/wp-includes/formatting.php';
+	require $h5p_source.'/autoloader.php';
+	foreach(array('H5PCore','H5P_Plugin','H5P_Plugin_Admin','H5PContentAdmin') as $class){class_exists($class);}
+	$GLOBALS['wpdb']=new class {
+		public $prefix='fixture_';public $last_error='';
+		public function prepare($sql,$id){if(strpos($sql,'SELECT id, user_id FROM fixture_h5p_contents WHERE id = %d LIMIT 1')!==0){throw new RuntimeException('Read-only identity SQL required');}return (string)$id;}
+		public function get_row($id){return in_array($id,array('10','11'),true)?(object)array('id'=>$id,'user_id'=>'10'===$id?2:1):null;}
+	};
+	if(preg_match('~\A/admin-grant/([1-9][0-9]{0,9})\z~',$_SERVER['REQUEST_URI'],$m)) {
+		if(!\Papijo\H5PThemerWordPress\Runtime\WordPress_Context::admin_content_allowed($m[1])){wp_send_json(array('error'=>'forbidden'),403);}
+		wp_send_json(array('nonce'=>wp_create_nonce(\Papijo\H5PThemerWordPress\Runtime\WordPress_Context::admin_nonce_action($m[1]))));
+	}
+}
 
 // Fixture-only login route issues fixed disposable sessions; it is never production code.
 if ( preg_match( '~\A/login/([123])(?:/(revoked|expired))?\z~', $_SERVER['REQUEST_URI'], $m ) ) {

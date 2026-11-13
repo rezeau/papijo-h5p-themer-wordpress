@@ -57,6 +57,8 @@ docs/profile-suspension-ux.md
 docs/profile-theme-preview.md
 docs/public-source-allowlist.txt
 docs/public-source-preparation.md
+docs/release-candidate-0.1.1.json
+docs/release-candidate-0.2.0-beta.1.json
 docs/release-candidate-beta1.json
 docs/release-candidate-beta2.json
 docs/release-candidate-beta3.json
@@ -64,7 +66,10 @@ docs/release-candidate.json
 docs/release-e4-inputs.json
 docs/release-f3-inputs.json
 docs/release-f6-inputs.json
+docs/release-f8-inputs.json
+docs/release-g2-inputs.json
 docs/release-notes-0.1.1.md
+docs/release-notes-0.2.0.md
 docs/release-preparation.md
 docs/release-tooling.md
 docs/release-zip-allowlist.txt
@@ -83,6 +88,8 @@ docs/stage-e4-release.md
 docs/stage-f3-release.md
 docs/stage-f6-release.md
 docs/stage-f8-release.md
+docs/stage-g2-admin-viewer.md
+docs/stage-g4-release.md
 docs/testing.md
 docs/theme-controller.md
 docs/theme-domain.md
@@ -224,6 +231,8 @@ tests/roles/mysql.php
 tests/roles/run.php
 tests/run-all.py
 tests/run.php
+tests/runtime/admin-viewer.js
+tests/runtime/admin-viewer.php
 tests/runtime/admission.php
 tests/runtime/attachment.php
 tests/runtime/coexistence.php

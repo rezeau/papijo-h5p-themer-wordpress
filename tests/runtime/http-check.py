@@ -17,11 +17,14 @@ import urllib.parse
 import urllib.request
 
 php, wp_source = sys.argv[1:3]
+h5p_source = sys.argv[3] if len(sys.argv) > 3 else None
 with socket.socket() as sock:
     sock.bind(('127.0.0.1', 0))
     port = sock.getsockname()[1]
 origin = f'http://127.0.0.1:{port}'
 env = dict(os.environ, PJH5PWP_TEST_WP_SOURCE=wp_source)
+if h5p_source:
+    env['PJH5PWP_TEST_H5P_SOURCE'] = h5p_source
 checks = 0
 
 def verify(value, message):
@@ -104,6 +107,31 @@ with tempfile.TemporaryFile() as log:
             verify(status == 403 and payload['appearance']['density'] is None, 'Cross-origin/admin rejection')
         status, payload = request(clients[0][0], extra={'user_id': '1'})
         verify(status == 400 and payload['appearance']['theme'] is None, 'Forged identity rejected over HTTP')
+        if h5p_source:
+            # Native WordPress session-bound nonces, with only content ownership backed by a double.
+            for user, expected in ((1, 'lavender'), (2, 'mint')):
+                client = clients[user][0]
+                with client.open(origin + f'/login/{user}') as response:
+                    verify(read_json(response) == {'fixture': True}, 'Fresh authenticated fixture session')
+                with client.open(origin + '/admin-grant/10') as response:
+                    nonce = read_json(response)['nonce']
+                fields = {'admin_content_id': '10', 'admin_nonce': nonce, 'admin_players': '10'}
+                ref = {'Referer': origin + '/wp-admin/admin.php?page=h5p&task=show&id=10'}
+                status, payload = request(client, headers=ref, extra=fields)
+                verify(status == 200 and payload['appearance']['theme']['id'] == expected, 'Native cookie/nonce admin appearance')
+                status, _ = request(client, headers=ref, extra=dict(fields, admin_nonce='0000000000'))
+                verify(status == 403, 'Forged native admin nonce rejected')
+                status, _ = request(client, headers=ref, extra=dict(fields, admin_players='10,11'))
+                verify(status == (200 if user == 1 else 403), 'Fresh own/other-player authorization over HTTP')
+                status, _ = request(clients[0][0], headers=ref, extra=fields)
+                verify(status == 403, 'Guest cannot reuse native authenticated grant')
+                other = clients[2 if user == 1 else 1][0]
+                status, _ = request(other, headers=ref, extra=fields)
+                verify(status == 403, 'Native nonce is bound to the current session/user')
+                with client.open(origin + f'/login/{user}/revoked') as response:
+                    read_json(response)
+                status, _ = request(client, headers=ref, extra=fields)
+                verify(status == 403, 'Revoked native session cannot retain an admin grant')
     except Exception:
         log.seek(0)
         sys.stderr.write(log.read().decode(errors='replace'))

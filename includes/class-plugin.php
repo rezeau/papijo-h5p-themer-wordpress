@@ -65,7 +65,8 @@ final class Plugin {
 		$profile->register();
 		$admission = new \Papijo\H5PThemerWordPress\Runtime\Runtime_Admission( array( $plugin->policy, 'evaluate' ) );
 		$plugin->playback = new \Papijo\H5PThemerWordPress\Runtime\Playback_Registry( $admission,
-			array( \Papijo\H5PThemerWordPress\Runtime\WordPress_Context::class, 'frontend' ) );
+			array( \Papijo\H5PThemerWordPress\Runtime\WordPress_Context::class, 'playback' ),
+			array( \Papijo\H5PThemerWordPress\Runtime\WordPress_Context::class, 'player_allowed' ) );
 		$plugin->playback->register();
 		$theme_attachment = new \Papijo\H5PThemerWordPress\Runtime\Theme_Attachment( $plugin->playback );
 		$theme_attachment->register();

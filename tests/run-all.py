@@ -26,11 +26,11 @@ php_suites = [
     'profile/activation', 'owned-storage/run', 'owned-storage/activation', 'roles/run', 'transfer/run', 'export/run', 'import/run',
     'admin-transfer/run', 'runtime/run', 'runtime/coexistence', 'runtime/admission',
     'runtime/attachment', 'runtime/configuration', 'runtime/div-admission',
-    'runtime/readiness', 'runtime/plugin-state-verification',
+    'runtime/readiness', 'runtime/plugin-state-verification', 'runtime/admin-viewer',
 ]
 for suite in php_suites:
     command = [args.php, '-n', f'tests/{suite}.php']
-    if suite == 'runtime/div-admission':
+    if suite in ['runtime/div-admission', 'runtime/admin-viewer']:
         command.append(str(args.h5p_root))
     jobs.append((suite, command))
 jobs.append(('actual-h5p', [args.php, '-n', 'tests/run.php', str(args.h5p_root)]))
@@ -42,15 +42,16 @@ css = args.h5p_root / 'h5p-php-library/styles/h5p-theme-variables.css'
 jobs.append(('profile-preview-core-css', [args.php, '-n', 'tests/profile/preview.php', '--check', str(css)]))
 for suite in ['admin/browser-behavior', 'profile/preview-behavior', 'runtime/theme-controller',
               'runtime/density-controller', 'runtime/lifecycle-controller',
-              'runtime/readiness-controller', 'runtime/return-controller', 'runtime/slow-readiness-investigation']:
+              'runtime/readiness-controller', 'runtime/return-controller', 'runtime/slow-readiness-investigation', 'runtime/admin-viewer']:
     command = ['node', f'tests/{suite}.js']
     if suite == 'runtime/density-controller':
         command.append(str(args.h5p_root))
-    jobs.append((suite, command))
+    label = 'runtime/admin-viewer-controller' if suite == 'runtime/admin-viewer' else suite
+    jobs.append((label, command))
 for suite in ['admin/headless-browser', 'profile/preview-browser']:
     jobs.append((suite, ['node', f'tests/{suite}.js', args.php, str(css), args.browser]))
 jobs.extend([
-    ('runtime/http-check', ['python', '-B', 'tests/runtime/http-check.py', args.php, str(args.wp_source)]),
+    ('runtime/http-check', ['python', '-B', 'tests/runtime/http-check.py', args.php, str(args.wp_source), str(args.h5p_root)]),
     ('admin-transfer/http-dom', ['python', '-B', 'tests/admin-transfer/http-dom.py', args.php]),
 ])
 skipped = []

@@ -3,11 +3,16 @@
 Independent Theme and Density preferences for supported WordPress H5P playback.
 This is not a fork of SNORDIAN’s H5P Themer.
 
-**Stable release prepared: 0.1.1**, under [Stage F8](docs/stage-f8-release.md),
-for project-owner review. This first public release is prepared locally and remains
-unpublished. Promotion from the accepted beta.3 baseline changes version and release
-metadata only; storage, permissions, runtime styling and color transfer are unchanged.
-See the [draft release notes](docs/release-notes-0.1.1.md).
+**Stable release candidate: 0.2.0**, prepared locally under [Stage G4](docs/stage-g4-release.md)
+from accepted 0.2.0-beta.1 without functional changes. It supports Theme and Density
+in the official H5P administration activity viewer, with authenticated content
+access, personal preferences and Global Default fallback. All 17 Stage G3B Firefox
+tests were reported PASS by the project owner; Codex did not independently reproduce
+them. The two former viewing limitations are resolved only for this accepted official
+viewer context. See [0.2.0 release notes](docs/release-notes-0.2.0.md).
+
+Published stable **0.1.1** and its tag/ZIP are unchanged. Its historical preparation
+record is [F8](docs/stage-f8-release.md).
 [F2 storage integration](docs/owned-storage-stage-f2.md) puts Theme and role state in
 a plugin-owned InnoDB State table; personal preferences use the separate InnoDB
 Profile table. WordPress options may use MyISAM or InnoDB; no WordPress-table
@@ -28,6 +33,13 @@ project owner accepts the residual uncertainty, requires no further investigatio
 for this release and removes that release-blocking gate. Preservation was not proven;
 the original evidence is unchanged. See the [F6 disposition](docs/stage-f6-release.md).
 
+G3A recorded all 28 database schemas, Themes/defaults, preferences, permissions
+and owned tables preserved, but the wp_options row fingerprint and reported next
+AUTO_INCREMENT changed (262 to 263), with attribution unverified. The owner accepts
+this uncertainty for 0.2.0: **ACCEPTED RESIDUAL RISK — NOT A RELEASE BLOCKER**.
+This is not a full-database preservation PASS. The 15-second readiness limitation
+remains unresolved; slow-network readiness is not fully verified.
+
 Previous beta.1/beta.2/beta.3 artifacts, metadata and evidence are preserved. Deployment,
 Git operations and publication require separate authorization.
 
@@ -44,7 +56,8 @@ Git operations and publication require separate authorization.
   do not change Density, and color transfers exclude Density and preferences.
 - Role-based access to personal preferences, with capability-based administrator access.
 - Runtime Theme and native Density application to qualified frontend DIV players
-  and supported same-origin internal H5P iframes.
+  and supported same-origin internal H5P iframes, plus the official H5P activity
+  viewer for Administrators and authorized Subscribers; multiple activities are supported.
 - Conservative SNORDIAN conflict detection, sanitized diagnostics and explicit
   storage setup/retry behavior.
 
@@ -74,8 +87,8 @@ There is no claim of universal library support or accessibility certification.
 A verified candidate ZIP contains one directory named
 `papijo-h5p-themer-wordpress/`. Use the dedicated plugin ZIP release asset when
 available; GitHub’s automatic source archives are not the designed installer.
-Use the 0.1.1 artifact, checksum and reviewed inputs in [release metadata](docs/release-candidate.json)
-and [F8 preparation](docs/stage-f8-release.md). This release supports fresh installations;
+Review the locally prepared 0.2.0 artifact, checksum and inputs in [release metadata](docs/release-candidate.json)
+and [G4 preparation](docs/stage-g4-release.md). This release supports fresh installations;
 old pre-F2 installations have no migration path in this release. Installation requires
 separate approval. See the [clean-install test plan](docs/clean-install-test-plan.md).
 
@@ -138,9 +151,13 @@ for transfer and preservation checks.
 
 ## Known limitations
 
-- **Accepted, deferred viewing contexts:** no Papi Jo styling in the WordPress H5P
-  administration viewing interface or Subscriber Profile > View H5P content.
-  Supported H5P embeds in ordinary WordPress pages receive personal styling.
+- Official administration support is limited to the canonical
+  `wp-admin/admin.php?page=h5p&task=show&id=<ID>` activity viewer. The former
+  Administrator/Subscriber viewing limitations are resolved in that accepted context;
+  arbitrary wp-admin pages and the separate external `h5p_embed` endpoint are excluded.
+  Supported H5P embeds in ordinary WordPress pages retain personal styling.
+- Unsupported legacy content using H5P API earlier than 1.28 receives no Papi Jo
+  Theme or Density styling; theme-aware markup and variables remain required.
 - **Unresolved slow-network readiness limitation:** the initial 15-second budget
   starts in the head bootstrap, while the appearance request waits for DOM readiness.
   Slow page resources, H5P initialization, styles or internal iframe sizing can
@@ -173,8 +190,8 @@ Stage E1 adds [offline packaging validation](docs/release-tooling.md) and a
 See [CONTRIBUTING.md](CONTRIBUTING.md) for current maintenance commands. Production,
 all reviewed tests/fixtures, technical documentation and tooling belong in the
 public repository; the independent 93-file working-source policy applies only to the installer ZIP.
-Stage F8 prepares the stable 0.1.1 ZIP and public-source artifacts. See
-[F8 preparation](docs/stage-f8-release.md) and [release metadata](docs/release-candidate.json).
+Stage G4 prepares the stable 0.2.0 ZIP and audited public-source projection. See
+[G4 preparation](docs/stage-g4-release.md) and [release metadata](docs/release-candidate.json).
 ZIP installation, Git initialization and publication remain separately controlled.
 Older phase reports retain their original checkpoint status; they are historical
 records, not current deployment instructions.

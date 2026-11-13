@@ -1,27 +1,115 @@
 {
   "accepted_runtime_limitations": [
-    "WordPress H5P administration viewing interface has no Papi Jo styling",
-    "Subscriber Profile > View H5P content has no Papi Jo styling",
     "Initial 15-second readiness budget may leave native fallback without automatic personal styling"
   ],
-  "candidate_stage": "F8",
+  "administration_viewer_support": "accepted-official-activity-viewer-only",
+  "candidate_stage": "G4",
   "deployment_gate": "project-owner-review-and-explicit-approval-required",
-  "existing_database_preservation": "failed-unattributed-cache-timeout-drift",
+  "existing_database_preservation": "G3A-plugin-owned-state-preserved-whole-database-preservation-not-pass",
   "format": 1,
   "github_prerelease": false,
-  "installer_bytes": 153498,
-  "installer_filename": "papijo-h5p-themer-wordpress-0.1.1.zip",
+  "installer_bytes": 156969,
+  "installer_filename": "papijo-h5p-themer-wordpress-0.2.0.zip",
   "installer_files": 93,
-  "installer_sha256": "2fbbeff021ce52daa1cc0de64729db008a531d353e88364708fa49db5c992d2e",
+  "installer_sha256": "3e04578111bdc34531bba139286ddc83145f09e6b0a1298bf42e43d36d59165f",
   "legacy_migration": false,
   "manual_acceptance": {
+    "accepted_implementation_preserved_in_stable": true,
     "applies_to_current_candidate_bytes": false,
-    "candidate_version": "0.1.1-beta.2",
-    "evidence_type": "user-reported Firefox manual acceptance",
+    "candidate_version": "0.2.0-beta.1",
+    "evidence_source": "G4 project-owner request",
+    "evidence_type": "project-owner-reported Firefox manual acceptance",
     "independently_reproduced_by_codex": false,
-    "passed": 25,
-    "stage": "F4",
-    "total": 25
+    "passed": 17,
+    "results": [
+      {
+        "id": "G3B-1",
+        "result": "PASS",
+        "test": "Administrator Global Default Theme"
+      },
+      {
+        "id": "G3B-2",
+        "result": "PASS",
+        "test": "Administrator personal Theme"
+      },
+      {
+        "id": "G3B-3",
+        "result": "PASS",
+        "test": "Administrator personal Large Density"
+      },
+      {
+        "id": "G3B-4",
+        "result": "PASS",
+        "test": "Subscriber personal Theme"
+      },
+      {
+        "id": "G3B-5",
+        "result": "PASS",
+        "test": "Subscriber personal Small Density"
+      },
+      {
+        "id": "G3B-6",
+        "result": "PASS",
+        "test": "Ordinary-page frontend regression"
+      },
+      {
+        "id": "G3B-7",
+        "result": "PASS",
+        "test": "Subscriber Original Theme fallback"
+      },
+      {
+        "id": "G3B-8",
+        "result": "PASS",
+        "test": "SNORDIAN activation coexistence"
+      },
+      {
+        "id": "G3B-9",
+        "result": "PASS",
+        "test": "Styling restored after SNORDIAN deactivation"
+      },
+      {
+        "id": "G3B-10",
+        "result": "PASS",
+        "test": "Internal iframe rendering"
+      },
+      {
+        "id": "G3B-11",
+        "result": "PASS",
+        "test": "DIV rendering"
+      },
+      {
+        "id": "G3B-12",
+        "result": "PASS",
+        "test": "Subscriber permission revocation"
+      },
+      {
+        "id": "G3B-13",
+        "result": "PASS",
+        "test": "Subscriber permission restoration"
+      },
+      {
+        "id": "G3B-14",
+        "result": "PASS",
+        "test": "Unrelated administration-page isolation"
+      },
+      {
+        "id": "G3B-15",
+        "result": "PASS",
+        "test": "Final frontend regression"
+      },
+      {
+        "id": "G3B-16",
+        "result": "PASS",
+        "test": "Two H5P activities on the same page: official True/False and Papi Jo DragText, both respecting Subscriber personal Theme and Density"
+      },
+      {
+        "id": "G3B-17",
+        "result": "PASS",
+        "test": "Legacy H5P activity using an API version earlier than 1.28 receives no Papi Jo Theme or Density styling"
+      }
+    ],
+    "stage": "G3B",
+    "total": 17
   },
   "manual_smoke_acceptance": {
     "applies_to_current_candidate_bytes": false,
@@ -34,16 +122,22 @@
     "total": 3
   },
   "preservation_disposition": {
-    "database_corruption_demonstrated": false,
-    "decision": "DOCUMENTED RISK ACCEPTANCE",
-    "further_investigation_required_for_this_release": false,
-    "historical_evidence_preserved": true,
-    "original_check_passed": false,
+    "attribution": "unverified",
+    "database_modified_during_G4": false,
+    "decision": "ACCEPTED RESIDUAL RISK \u2014 NOT A RELEASE BLOCKER",
+    "full_database_preservation_pass": false,
+    "personal_preferences_preserved": true,
+    "plugin_owned_tables_preserved": true,
     "preservation_proven": false,
     "project_owner_accepted_residual_uncertainty": true,
     "release_blocking": false,
-    "stage": "F6",
-    "writer_and_trigger": "unattributed"
+    "reported_next_auto_increment_after": 263,
+    "reported_next_auto_increment_before": 262,
+    "role_permissions_preserved": true,
+    "stage": "G3A/G4",
+    "themes_and_defaults_preserved": true,
+    "unchanged_schemas": 28,
+    "wp_options_row_fingerprint_changed": true
   },
   "previous_candidate": {
     "accepted_runtime_limitations": [
@@ -51,15 +145,16 @@
       "Subscriber Profile > View H5P content has no Papi Jo styling",
       "Initial 15-second readiness budget may leave native fallback without automatic personal styling"
     ],
-    "candidate_stage": "F6",
+    "administration_viewer_support": "implemented-locally-pending-firefox-acceptance",
+    "candidate_stage": "G2",
     "deployment_gate": "project-owner-review-and-explicit-approval-required",
     "existing_database_preservation": "failed-unattributed-cache-timeout-drift",
     "format": 1,
     "github_prerelease": true,
-    "installer_bytes": 153396,
-    "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.3.zip",
+    "installer_bytes": 156424,
+    "installer_filename": "papijo-h5p-themer-wordpress-0.2.0-beta.1.zip",
     "installer_files": 93,
-    "installer_sha256": "11088f4dcb2ec06b4fab03cee2ab5e183b769d6fda5aeb3c4b8bc090ed55eb17",
+    "installer_sha256": "4d870641d5a1ebd99de9562d89bf9e969441e10c141d78980080fa0b07ad6e72",
     "legacy_migration": false,
     "manual_acceptance": {
       "applies_to_current_candidate_bytes": false,
@@ -69,6 +164,16 @@
       "passed": 25,
       "stage": "F4",
       "total": 25
+    },
+    "manual_smoke_acceptance": {
+      "applies_to_current_candidate_bytes": false,
+      "candidate_version": "0.1.1-beta.3",
+      "evidence_source": "F8 project-owner request",
+      "evidence_type": "user-reported Firefox smoke acceptance",
+      "independently_reproduced_by_codex": false,
+      "passed": 3,
+      "stage": "F7",
+      "total": 3
     },
     "preservation_disposition": {
       "database_corruption_demonstrated": false,
@@ -83,70 +188,180 @@
       "writer_and_trigger": "unattributed"
     },
     "previous_candidate": {
-      "candidate_stage": "F3",
-      "deployment_gate": "blocked-pending-preservation-review-and-explicit-approval",
+      "accepted_runtime_limitations": [
+        "WordPress H5P administration viewing interface has no Papi Jo styling",
+        "Subscriber Profile > View H5P content has no Papi Jo styling",
+        "Initial 15-second readiness budget may leave native fallback without automatic personal styling"
+      ],
+      "candidate_stage": "F8",
+      "deployment_gate": "project-owner-review-and-explicit-approval-required",
       "existing_database_preservation": "failed-unattributed-cache-timeout-drift",
       "format": 1,
-      "github_prerelease": true,
-      "installer_bytes": 153067,
-      "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.2.zip",
+      "github_prerelease": false,
+      "installer_bytes": 153498,
+      "installer_filename": "papijo-h5p-themer-wordpress-0.1.1.zip",
       "installer_files": 93,
-      "installer_sha256": "d34a219723acf687fa685de4c8b9555de879be065b06b2457d3669f039f76e7b",
+      "installer_sha256": "2fbbeff021ce52daa1cc0de64729db008a531d353e88364708fa49db5c992d2e",
       "legacy_migration": false,
+      "manual_acceptance": {
+        "applies_to_current_candidate_bytes": false,
+        "candidate_version": "0.1.1-beta.2",
+        "evidence_type": "user-reported Firefox manual acceptance",
+        "independently_reproduced_by_codex": false,
+        "passed": 25,
+        "stage": "F4",
+        "total": 25
+      },
+      "manual_smoke_acceptance": {
+        "applies_to_current_candidate_bytes": false,
+        "candidate_version": "0.1.1-beta.3",
+        "evidence_source": "F8 project-owner request",
+        "evidence_type": "user-reported Firefox smoke acceptance",
+        "independently_reproduced_by_codex": false,
+        "passed": 3,
+        "stage": "F7",
+        "total": 3
+      },
+      "preservation_disposition": {
+        "database_corruption_demonstrated": false,
+        "decision": "DOCUMENTED RISK ACCEPTANCE",
+        "further_investigation_required_for_this_release": false,
+        "historical_evidence_preserved": true,
+        "original_check_passed": false,
+        "preservation_proven": false,
+        "project_owner_accepted_residual_uncertainty": true,
+        "release_blocking": false,
+        "stage": "F6",
+        "writer_and_trigger": "unattributed"
+      },
       "previous_candidate": {
-        "approved_correction": "storage_options_engine_unsupported",
-        "candidate_stage": "E4",
+        "accepted_runtime_limitations": [
+          "WordPress H5P administration viewing interface has no Papi Jo styling",
+          "Subscriber Profile > View H5P content has no Papi Jo styling",
+          "Initial 15-second readiness budget may leave native fallback without automatic personal styling"
+        ],
+        "candidate_stage": "F6",
+        "deployment_gate": "project-owner-review-and-explicit-approval-required",
+        "existing_database_preservation": "failed-unattributed-cache-timeout-drift",
         "format": 1,
         "github_prerelease": true,
-        "installer_bytes": 141180,
-        "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.1.zip",
-        "installer_files": 84,
-        "installer_sha256": "69e45c7ad8f82f839d597cb03a6c7b2cc793b61b2403118a7e3e017f8f2fe703",
-        "previous_candidate": {
-          "installer_sha256": "553bc1f3bcbcf1c96a6b8e3360bf0790cc2539366669bd22e36edc5cd3cfc14b",
-          "source_inputs_sha256": "3e171e84889b1e5afcb83ce7b3776c1b60eb5807ebddbd586bcf03fdab382e34",
-          "stage": "E2"
+        "installer_bytes": 153396,
+        "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.3.zip",
+        "installer_files": 93,
+        "installer_sha256": "11088f4dcb2ec06b4fab03cee2ab5e183b769d6fda5aeb3c4b8bc090ed55eb17",
+        "legacy_migration": false,
+        "manual_acceptance": {
+          "applies_to_current_candidate_bytes": false,
+          "candidate_version": "0.1.1-beta.2",
+          "evidence_type": "user-reported Firefox manual acceptance",
+          "independently_reproduced_by_codex": false,
+          "passed": 25,
+          "stage": "F4",
+          "total": 25
         },
-        "proposed_tag": "v0.1.1-beta.1",
+        "preservation_disposition": {
+          "database_corruption_demonstrated": false,
+          "decision": "DOCUMENTED RISK ACCEPTANCE",
+          "further_investigation_required_for_this_release": false,
+          "historical_evidence_preserved": true,
+          "original_check_passed": false,
+          "preservation_proven": false,
+          "project_owner_accepted_residual_uncertainty": true,
+          "release_blocking": false,
+          "stage": "F6",
+          "writer_and_trigger": "unattributed"
+        },
+        "previous_candidate": {
+          "candidate_stage": "F3",
+          "deployment_gate": "blocked-pending-preservation-review-and-explicit-approval",
+          "existing_database_preservation": "failed-unattributed-cache-timeout-drift",
+          "format": 1,
+          "github_prerelease": true,
+          "installer_bytes": 153067,
+          "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.2.zip",
+          "installer_files": 93,
+          "installer_sha256": "d34a219723acf687fa685de4c8b9555de879be065b06b2457d3669f039f76e7b",
+          "legacy_migration": false,
+          "previous_candidate": {
+            "approved_correction": "storage_options_engine_unsupported",
+            "candidate_stage": "E4",
+            "format": 1,
+            "github_prerelease": true,
+            "installer_bytes": 141180,
+            "installer_filename": "papijo-h5p-themer-wordpress-0.1.1-beta.1.zip",
+            "installer_files": 84,
+            "installer_sha256": "69e45c7ad8f82f839d597cb03a6c7b2cc793b61b2403118a7e3e017f8f2fe703",
+            "previous_candidate": {
+              "installer_sha256": "553bc1f3bcbcf1c96a6b8e3360bf0790cc2539366669bd22e36edc5cd3cfc14b",
+              "source_inputs_sha256": "3e171e84889b1e5afcb83ce7b3776c1b60eb5807ebddbd586bcf03fdab382e34",
+              "stage": "E2"
+            },
+            "proposed_tag": "v0.1.1-beta.1",
+            "refresh_date": "2026-11-12",
+            "requires_php": "7.4",
+            "requires_wordpress": "6.5",
+            "runtime_behavior_changed": false,
+            "slow_network_readiness_limitation": "unresolved",
+            "source_inputs_sha256": "ec20fd4c9ec6a1f05fa05cee53729701d5454e67242305b5590699f9f4c6c75d",
+            "status": "local-refreshed-candidate-not-deployed-or-published",
+            "version": "0.1.1-beta.1"
+          },
+          "proposed_tag": "v0.1.1-beta.2",
+          "refresh_date": "2026-11-12",
+          "requires_php": "7.4",
+          "requires_wordpress": "6.5",
+          "runtime_behavior_changed": false,
+          "slow_network_readiness_limitation": "unresolved",
+          "source_inputs_sha256": "099b372c76d6c15bb64a87a342fecc0952d15a67f036dd76179e3e56f4bafb7e",
+          "status": "local-candidate-tests-pass-database-preservation-blocked",
+          "storage_backend": "plugin-owned-innodb",
+          "version": "0.1.1-beta.2"
+        },
+        "proposed_tag": "v0.1.1-beta.3",
         "refresh_date": "2026-11-12",
         "requires_php": "7.4",
         "requires_wordpress": "6.5",
         "runtime_behavior_changed": false,
         "slow_network_readiness_limitation": "unresolved",
-        "source_inputs_sha256": "ec20fd4c9ec6a1f05fa05cee53729701d5454e67242305b5590699f9f4c6c75d",
-        "status": "local-refreshed-candidate-not-deployed-or-published",
-        "version": "0.1.1-beta.1"
+        "source_inputs_sha256": "d9a39903db006973b8fa869ce8b58081922a6c91edfb0143f8dde8de5300dff8",
+        "status": "local-candidate-tests-pass-awaiting-project-owner-review",
+        "storage_backend": "plugin-owned-innodb",
+        "version": "0.1.1-beta.3"
       },
-      "proposed_tag": "v0.1.1-beta.2",
+      "proposed_tag": "v0.1.1",
       "refresh_date": "2026-11-12",
       "requires_php": "7.4",
       "requires_wordpress": "6.5",
       "runtime_behavior_changed": false,
       "slow_network_readiness_limitation": "unresolved",
-      "source_inputs_sha256": "099b372c76d6c15bb64a87a342fecc0952d15a67f036dd76179e3e56f4bafb7e",
-      "status": "local-candidate-tests-pass-database-preservation-blocked",
+      "source_inputs_sha256": "f19629b0c8ea1439675cc1f583a9f59e6ba6b586ba421e12224f891cf17fdf1f",
+      "status": "local-stable-release-prepared-not-deployed-or-published",
       "storage_backend": "plugin-owned-innodb",
-      "version": "0.1.1-beta.2"
+      "version": "0.1.1"
     },
-    "proposed_tag": "v0.1.1-beta.3",
-    "refresh_date": "2026-11-12",
+    "proposed_tag": "v0.2.0-beta.1",
+    "refresh_date": "2026-11-13",
     "requires_php": "7.4",
     "requires_wordpress": "6.5",
-    "runtime_behavior_changed": false,
+    "runtime_behavior_changed": true,
     "slow_network_readiness_limitation": "unresolved",
-    "source_inputs_sha256": "d9a39903db006973b8fa869ce8b58081922a6c91edfb0143f8dde8de5300dff8",
-    "status": "local-candidate-tests-pass-awaiting-project-owner-review",
+    "source_inputs_sha256": "544118f38e048014f86c39550d4455fc911209e17ad4e602cdd38255d307b110",
+    "status": "local-development-candidate-awaiting-deployment-and-firefox-acceptance",
     "storage_backend": "plugin-owned-innodb",
-    "version": "0.1.1-beta.3"
+    "version": "0.2.0-beta.1"
   },
-  "proposed_tag": "v0.1.1",
-  "refresh_date": "2026-11-12",
+  "proposed_tag": "v0.2.0",
+  "refresh_date": "2026-11-13",
   "requires_php": "7.4",
   "requires_wordpress": "6.5",
+  "resolved_viewing_limitations_scope": "Administrator and authorized Subscriber using the exact official H5P activity viewer; arbitrary wp-admin and external h5p_embed excluded",
   "runtime_behavior_changed": false,
+  "runtime_behavior_changed_since_published_0_1_1": true,
+  "runtime_behavior_comparison_baseline": "0.2.0-beta.1",
+  "slow_network_readiness_fully_verified": false,
   "slow_network_readiness_limitation": "unresolved",
-  "source_inputs_sha256": "f19629b0c8ea1439675cc1f583a9f59e6ba6b586ba421e12224f891cf17fdf1f",
+  "source_inputs_sha256": "785da82bea97c56fb05f521a10f5d50a1f8d009893adabeafd5aec645d462d57",
   "status": "local-stable-release-prepared-not-deployed-or-published",
   "storage_backend": "plugin-owned-innodb",
-  "version": "0.1.1"
+  "version": "0.2.0"
 }

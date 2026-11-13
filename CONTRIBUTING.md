@@ -16,11 +16,11 @@ the tooling does not download dependencies or contact a network service.
 
 ```text
 python -B tests/release/test_tooling.py
-python -B tools/package_release.py audit --expect-version 0.1.1
+python -B tools/package_release.py audit --expect-version 0.2.0
 python -B tools/prepare_public_source.py
 ```
 
-These commands validate the 0.1.1 source and synthetic in-memory archives; they do not build
+These commands validate the 0.2.0 source and synthetic in-memory archives; they do not build
 a real plugin ZIP. No WordPress bootstrap or database connection is involved.
 The public audit prints hashes and the complete proposed public file list.
 
@@ -30,7 +30,7 @@ For existing PHP/JS/browser/HTTP checks, replace the argument placeholders:
 python -B tests/run-all.py --php <php.exe> --h5p-root <H5P-source> --wp-source <WordPress-source> --backdrop-root <Backdrop-source> --browser <chromium.exe> --report-dir <fresh-private-report-directory>
 ```
 
-With parity enabled, the complete inventory has **52 commands**: 43 non-database
+With parity enabled, the complete inventory has **54 commands**: 45 non-database
 commands and nine explicitly opted-in disposable database/native-lifecycle commands.
 Use `--database-credentials <literal-config-source>` and `--wordpress-fixture <new-private-copied-core>`
 to include every native job; the source DB_NAME is never used for test writes. See
@@ -78,7 +78,11 @@ has the same complete file layout and can run the same tools and tests.
 
 See [release tooling](docs/release-tooling.md). `audit` is read-only unless explicitly
 given a new manifest filename; `build` is the separate artifact-creation command.
-Stage F8 authorizes stable 0.1.1 local preparation; deployment and publication require separate approval.
+Stage G4 authorizes stable 0.2.0 metadata/documentation preparation, local verification
+and packaging only. The accepted beta.1 implementation is preserved; 17 G3B Firefox
+passes are owner-reported. See [G4](docs/stage-g4-release.md) for current results,
+explicit native-suite exclusions, the unchanged readiness limit and accepted G3A
+database uncertainty. Deployment and Git/publication require separate approval.
 New versions must agree
 across the plugin header/runtime constant, readme/changelog, tag and artifact.
 Use GitHub pre-releases for test releases and retain the documented readiness limits.

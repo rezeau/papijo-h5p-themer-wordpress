@@ -1,5 +1,12 @@
 # Complete public development repository
 
+Current stable release candidate: **0.2.0**, under [G4](stage-g4-release.md).
+Its complete reviewed source and the unchanged 93-file installer membership use
+the existing policies. Stable 0.1.1 candidate/input assertions are frozen in
+release-candidate-0.1.1.json and release-f8-inputs.json. No Git, tag, push,
+deployment or publication is authorized for G4. Earlier stage descriptions below
+retain their checkpoint context.
+
 The proposed repository is `rezeau/papijo-h5p-themer-wordpress`. No Git repository,
 remote repository, commit or release is created by this procedure.
 

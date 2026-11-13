@@ -1,5 +1,12 @@
 # Proposed release and GitHub preparation
 
+> G4 addendum: stable **0.2.0** is prepared locally from accepted 0.2.0-beta.1,
+> with metadata/documentation changes only. See [G4](stage-g4-release.md) and
+> [release notes](release-notes-0.2.0.md). All 17 G3B Firefox passes are owner-reported.
+> The readiness limitation and accepted G3A database uncertainty remain. Deployment,
+> modification of the public Git checkout, commit, tag, push and publication are
+> outside this stage. Earlier checkpoint text below is historical.
+
 > F8 addendum: **0.1.1** is the approved first stable release version, prepared
 > locally from accepted beta.3 with metadata changes only. See [F8](stage-f8-release.md)
 > and [draft release notes](release-notes-0.1.1.md). The F6 risk acceptance and original

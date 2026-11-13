@@ -37,7 +37,7 @@ same( array(), $hooks, 'Opt-out has no attachment hooks' ); same( array(), $asse
 same( null, $dormant->manifest(), 'Opt-out has no public metadata' );
 $attachment = new Theme_Attachment( $registry, static function () use ( &$enabled ) { return $enabled; } );
 $attachment->register();
-same( array( 'wp_enqueue_scripts', 'wp_footer', 'print_h5p_content', 'script_loader_tag' ), array_keys( $hooks ), 'Head enqueue plus public footer, marker and own-tag hooks' );
+same( array( 'wp_enqueue_scripts', 'wp_footer', 'admin_enqueue_scripts', 'admin_footer', 'print_h5p_content', 'script_loader_tag' ), array_keys( $hooks ), 'Shared controller plus narrowly gated admin attachment hooks' );
 same( 5, $hooks['wp_enqueue_scripts'][0][1], 'Enqueue before head asset printers' );
 same( 2, $hooks['script_loader_tag'][0][2], 'Tag filter receives handle' );
 $attachment->enqueue(); same( 1, count( $assets ), 'Explicitly enabled unique candidate queues one static asset' );

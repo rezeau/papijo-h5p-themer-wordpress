@@ -40,9 +40,11 @@ final class Appearance_Endpoint {
 	}
 	private function request_error( array $server, array $get, array $post, $home, $admin ) {
 		if ( 'POST' !== ( $server['REQUEST_METHOD'] ?? null ) ) { return array( 405, 'method_not_allowed' ); }
-		if ( ! WordPress_Context::request_allowed( $server, $home, $admin ) ) { return array( 403, 'unsupported_context' ); }
+		if ( ! WordPress_Context::same_origin_request( $server, $home, $admin ) ) { return array( 403, 'unsupported_context' ); }
+		$frontend = WordPress_Context::request_allowed( $server, $home, $admin );
+		if ( ! $frontend && ! WordPress_Context::admin_transport_allowed( $server, $post, $admin ) ) { return array( 403, 'unsupported_context' ); }
 		// Exact schema rejects user_id, theme, density, CSS, nonce and unknown/forged fields.
-		if ( $get || count( $post ) !== 2 || self::ACTION !== ( $post['action'] ?? null ) ||
+		if ( $get || count( $post ) !== ( $frontend ? 2 : 5 ) || self::ACTION !== ( $post['action'] ?? null ) ||
 			! is_string( $post['request_id'] ?? null ) || ! preg_match( '/\A[a-f0-9]{32}\z/', $post['request_id'] ) ) {
 			return array( 400, 'invalid_request' );
 		}
