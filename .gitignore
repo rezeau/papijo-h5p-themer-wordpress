@@ -1,0 +1,42 @@
+# Private evidence, backups, database dumps and local fixtures. Never publish.
+/.local-acceptance/
+
+# Local configuration and credentials, at any depth.
+.env
+.env.*
+!.env.example
+wp-config.php
+*.private.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.sql
+*.sql.gz
+
+# Build output and archives are release assets, not repository source.
+/build/
+/dist/
+/release/
+/releases/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# Logs, scratch files and local tooling.
+*.log
+*.tmp
+*.temp
+*.bak
+*.before
+*.original
+*~
+__pycache__/
+*.py[cod]
+/node_modules/
+/vendor/
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db

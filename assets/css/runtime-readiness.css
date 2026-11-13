@@ -1,0 +1,28 @@
+/* Public presentation only. Unarmed/JavaScript-disabled pages stay visible. */
+.pjh5pwp-readiness-armed [data-pjh5pwp-pending],
+.pjh5pwp-readiness-armed [data-pjh5pwp-pending] * {
+  visibility: hidden !important;
+}
+.pjh5pwp-readiness-armed .h5p-iframe-wrapper[data-pjh5pwp-pending] {
+  min-height: min(12rem, 50vh);
+}
+.pjh5pwp-readiness-status { display: none; }
+.pjh5pwp-readiness-status[hidden] { display: none !important; }
+.pjh5pwp-readiness-armed .pjh5pwp-readiness-status,
+.pjh5pwp-readiness-status[data-pjh5pwp-fallback] {
+  display: block;
+  font-size: .875rem;
+}
+/* Keep loading announcements accessible without displaying them over the activity. */
+.pjh5pwp-readiness-armed .pjh5pwp-readiness-status:not([data-pjh5pwp-fallback]) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

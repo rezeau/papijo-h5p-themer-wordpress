@@ -1,0 +1,475 @@
+{
+  "files": [
+    {
+      "bytes": 35179,
+      "path": "LICENSE",
+      "sha256": "4052be61f35ad6a156dcee919b8f99058b24b0417a152ecef746f702c7f34c5c"
+    },
+    {
+      "bytes": 3341,
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "7c73ff7ab23eaa0d4d48a1e8e05f7c9208d414082f4308b1f5069e28088e516a"
+    },
+    {
+      "bytes": 1422,
+      "path": "assets/css/admin.css",
+      "sha256": "5050cc4e4dcbce1ace6fbbc7de2e179f40772bd4ea4f193cb2cb4157230f075a"
+    },
+    {
+      "bytes": 4923,
+      "path": "assets/css/preview.css",
+      "sha256": "55902cf877676a1be95c0450805e3f3171f4484d00b3d0b3484c2b836846a5fa"
+    },
+    {
+      "bytes": 627,
+      "path": "assets/css/profile-preview.css",
+      "sha256": "4403c6f55119a66d9b5d65e1be4d89097cc74b2307efaaa27885367b372903dc"
+    },
+    {
+      "bytes": 932,
+      "path": "assets/css/runtime-readiness.css",
+      "sha256": "47fa39edf9a86633d575da3ca01c5bd7452aa97f9b503d92b61d7a5fda8eb971"
+    },
+    {
+      "bytes": 5110,
+      "path": "assets/js/admin.js",
+      "sha256": "65a127c23cc0e5cf694fd58335694cd5774c6106440cd68a766063c945b64b73"
+    },
+    {
+      "bytes": 4047,
+      "path": "assets/js/profile-preview.js",
+      "sha256": "c73220fe74f550709b1c62e3c9bcd0540e2eba8a89410b7fcdd84501da5ddead"
+    },
+    {
+      "bytes": 39006,
+      "path": "assets/js/theme-controller.js",
+      "sha256": "fed65e9a3d9120ea3e861f99813c020f3d4744ef5fc9b13afb17e2725f34266b"
+    },
+    {
+      "bytes": 6980,
+      "path": "includes/Admin/class-admin-controller.php",
+      "sha256": "c67e0b8465bc1e1840d8b59de9228b93d555dbace7324eb7bfaf710fc23b56c6"
+    },
+    {
+      "bytes": 11912,
+      "path": "includes/Admin/class-admin-messages.php",
+      "sha256": "69f9b8ae8b74ee21b9cc070e7ae56671481aada96ae6c9695e33dacc34d74a1c"
+    },
+    {
+      "bytes": 9348,
+      "path": "includes/Admin/class-admin-service.php",
+      "sha256": "0a4fce2e13fa37403018ab956350b2fa51993f6ec081b659b763954c8a002512"
+    },
+    {
+      "bytes": 18446,
+      "path": "includes/Admin/class-admin-view.php",
+      "sha256": "a7bc0d0fd3a22ea314f220653b8a5f5bbda168eb5e7819d4c6c58d61ca706e11"
+    },
+    {
+      "bytes": 6391,
+      "path": "includes/Admin/class-diagnostic-notices.php",
+      "sha256": "756e49abb0882596bd5d35adc189d57ac87e296ede5a9ba8db93eb0b78ccda8e"
+    },
+    {
+      "bytes": 3758,
+      "path": "includes/Admin/class-import-review.php",
+      "sha256": "c4a4feaa1813504c5e52284ccdce682b15a756366306ea25c537952e02e75d59"
+    },
+    {
+      "bytes": 8492,
+      "path": "includes/Admin/class-theme-preview.php",
+      "sha256": "764b0e2b41581ddf38fe31a791ea8d703cf8e763b79054ca285b88d0a4545c59"
+    },
+    {
+      "bytes": 6042,
+      "path": "includes/Admin/class-transfer-admin.php",
+      "sha256": "175ea5a438c01f54c2ba04c550bb6ad40dd7d22c38bebaa8597d592957807040"
+    },
+    {
+      "bytes": 1570,
+      "path": "includes/Admin/class-transfer-download.php",
+      "sha256": "d9a3b7fd6bc0ee21ed4daf53d3d61dad5ca3a99cd2c9f5cf35477d9c3908b464"
+    },
+    {
+      "bytes": 1974,
+      "path": "includes/Admin/class-transfer-upload.php",
+      "sha256": "533d57358e4c33c45a983d1c83f5ea68fbb5f4ab4022ec9ec729f9b9106ba79b"
+    },
+    {
+      "bytes": 6477,
+      "path": "includes/Admin/class-transfer-view.php",
+      "sha256": "7d2575d88e3340f8e4654f80ff18fb16c2af28bb617893a6713c20b50547c944"
+    },
+    {
+      "bytes": 3973,
+      "path": "includes/Compatibility/class-h5p-dependency.php",
+      "sha256": "fcba2feb36f09a1b593bb740858c2c0331ed7c9704b35f1f628b93e80232ffaf"
+    },
+    {
+      "bytes": 2024,
+      "path": "includes/Compatibility/class-hook-inspector.php",
+      "sha256": "5c1f85f043f05771c4c66c78558f20062323d7d6323d3731d0d113f2bf49518d"
+    },
+    {
+      "bytes": 1646,
+      "path": "includes/Compatibility/class-runtime-policy.php",
+      "sha256": "9c7fce9dfe2ab4859874d99d08f77d213191d715e68510c525db4983b6ccd679"
+    },
+    {
+      "bytes": 1427,
+      "path": "includes/Compatibility/class-snordian-compatibility.php",
+      "sha256": "11009e08913956fd790722615b082bd09f40159e2920187d93a0752a7c7eee2a"
+    },
+    {
+      "bytes": 1477,
+      "path": "includes/Compatibility/class-wordpress-environment.php",
+      "sha256": "46fda7e119361f58bb7545246b8a829631d6b68628221235aa7218ab1edade64"
+    },
+    {
+      "bytes": 6362,
+      "path": "includes/Profile/class-profile-controller.php",
+      "sha256": "40e9da9ef6d673706563388d3abf76e24f377d7d8711539d6b871ce7e83fc6a9"
+    },
+    {
+      "bytes": 2119,
+      "path": "includes/Profile/class-profile-installation.php",
+      "sha256": "f9493c42a3a18de761a74f1df51a90cc6e7e1437a7e49fe0f176a83b417e790f"
+    },
+    {
+      "bytes": 4394,
+      "path": "includes/Profile/class-profile-preview.php",
+      "sha256": "8cbd750337d02beb47ddb281f4eb958a9e3e253de8a6c8f9ad1d37e7b35e37b6"
+    },
+    {
+      "bytes": 4470,
+      "path": "includes/Profile/class-profile-service.php",
+      "sha256": "3bd800dd6f9fb1bf384a7eb680630ca47994cca5653d16528f200c5d682e7a1b"
+    },
+    {
+      "bytes": 1069,
+      "path": "includes/Profile/class-profile-state.php",
+      "sha256": "2ef37076c05eb76244a145cb5d120ec40aec48d6cf8ce2d5854d49699b519d97"
+    },
+    {
+      "bytes": 5085,
+      "path": "includes/Profile/class-profile-storage-admin.php",
+      "sha256": "5505374e520a12c08095f2fe9980979dfd73df0d580ad98fb8f57bd9229081e6"
+    },
+    {
+      "bytes": 9192,
+      "path": "includes/Profile/class-profile-store.php",
+      "sha256": "06955f81ec2eff827bdcabfefdf311a1e1ff2a755a94aa084a0117cbfa6d68ed"
+    },
+    {
+      "bytes": 5253,
+      "path": "includes/Publication/class-publication-policy.php",
+      "sha256": "a27337fca885962570d7333e803028ced28c0afae72827010570a1238c55e511"
+    },
+    {
+      "bytes": 4644,
+      "path": "includes/Role/class-role-service.php",
+      "sha256": "b98d671703a942655c7339c6e00b27d9aba9329ecd24847e2edfbf02536ff059"
+    },
+    {
+      "bytes": 843,
+      "path": "includes/Role/class-role-state.php",
+      "sha256": "c6434271bd0b1470fcede4a5b111d098a3c1b249d2d0b3b34ccc39734d1dd1b4"
+    },
+    {
+      "bytes": 7803,
+      "path": "includes/Role/class-role-store.php",
+      "sha256": "2385a591ce07cb354695975cb26a8f1f8427e3ff7a185de3347147b939f15683"
+    },
+    {
+      "bytes": 2628,
+      "path": "includes/Role/class-role-view.php",
+      "sha256": "3967317f7d96672de57f09950e4df61d510166576f62bfb97cc6bd254d709fe8"
+    },
+    {
+      "bytes": 4407,
+      "path": "includes/Runtime/class-appearance-endpoint.php",
+      "sha256": "e4584fb020b3b0b833fd44fc9da4d4237312c6374f3af26967af96fbf101a4bb"
+    },
+    {
+      "bytes": 2819,
+      "path": "includes/Runtime/class-appearance-service.php",
+      "sha256": "d05373086cf130c9d3405c625ba7cc3036099198c7d5478ec5f07efa7a321b88"
+    },
+    {
+      "bytes": 2809,
+      "path": "includes/Runtime/class-css-serializer.php",
+      "sha256": "e43049bf10606a4d0ca7cca3c4ec7f578faa9bcba4d1ae9b20756049ffa9dd67"
+    },
+    {
+      "bytes": 4175,
+      "path": "includes/Runtime/class-playback-registry.php",
+      "sha256": "c98548e8269a55e30c8477263ad79e13318538ae3718a6b635bb73e1899e7832"
+    },
+    {
+      "bytes": 924,
+      "path": "includes/Runtime/class-runtime-admission.php",
+      "sha256": "eaea51cadbbd6601d354cf699c54bc5df780602abbde82d6e6095eb5b9abd51a"
+    },
+    {
+      "bytes": 3917,
+      "path": "includes/Runtime/class-theme-attachment.php",
+      "sha256": "5cd089b3ec963bb24992e7cf39cb06bcdfafa512fbb947bdfa7df4139599abf2"
+    },
+    {
+      "bytes": 2951,
+      "path": "includes/Runtime/class-wordpress-context.php",
+      "sha256": "0b6a4996f5a0f8fd10a8a9d42ddb5eaf4e2c07c6bb88b3ff950a5e1f159be547"
+    },
+    {
+      "bytes": 816,
+      "path": "includes/Storage/Owned/class-legacy-guard.php",
+      "sha256": "407d3e4cdba4090949b620a58374053b2b7c8716cde9382e5cd1bc11bcef616e"
+    },
+    {
+      "bytes": 737,
+      "path": "includes/Storage/Owned/class-role-store.php",
+      "sha256": "e7b6e0e93590665b2b7888fff2eb8976d0dab8ed6a4bad239014d08ed3916571"
+    },
+    {
+      "bytes": 1006,
+      "path": "includes/Storage/Owned/class-state-connections.php",
+      "sha256": "3648fc86eadd886262045637b6969ed83b100eb987ea8f3a4985c6c7dcfff40b"
+    },
+    {
+      "bytes": 4982,
+      "path": "includes/Storage/Owned/class-state-installation.php",
+      "sha256": "83f31903a7629c446655a64111855bd023245afde76d64e49a1add1975958e69"
+    },
+    {
+      "bytes": 4284,
+      "path": "includes/Storage/Owned/class-state-schema.php",
+      "sha256": "c4ff839c4a26c6d1b045b1bc452885b68e612a0d21ab4b70107137fb982a4319"
+    },
+    {
+      "bytes": 5650,
+      "path": "includes/Storage/Owned/class-state-storage-admin.php",
+      "sha256": "e005395c46143ff83813097855f16626dcf6ade3677c138ca72468e63140d8a4"
+    },
+    {
+      "bytes": 6964,
+      "path": "includes/Storage/Owned/class-state-table.php",
+      "sha256": "7f557a86d68f7796d8f3618deff40a96c70ce271c8a7660b5b6aa55f4f1db29a"
+    },
+    {
+      "bytes": 642,
+      "path": "includes/Storage/Owned/class-theme-store.php",
+      "sha256": "2d69a09fe8934ef2ba38b0c6b4d9ec8bc246935e155037afff6641f4699038d1"
+    },
+    {
+      "bytes": 1760,
+      "path": "includes/Storage/class-owned-wpdb.php",
+      "sha256": "c2592a01c0193fd5e6406921d4ab050198a1de3aabaccfb91d1490b4380420e9"
+    },
+    {
+      "bytes": 2741,
+      "path": "includes/Storage/class-schema-migrations.php",
+      "sha256": "47cedf07819924950e0fa62baa4e9524807fab3acb4053ad6fbaec74355917e6"
+    },
+    {
+      "bytes": 3360,
+      "path": "includes/Storage/class-schema.php",
+      "sha256": "e5df0eda2d1705114e51c0ac81e4378f632b51b344f83e535b92dced3a9a7cb1"
+    },
+    {
+      "bytes": 1110,
+      "path": "includes/Storage/class-snapshot-codec.php",
+      "sha256": "b18c40e0ba54b52db3c23bdf0632fe66f866b4dd09f4f69e19ca1a9e6b759a4b"
+    },
+    {
+      "bytes": 467,
+      "path": "includes/Storage/class-storage-exception.php",
+      "sha256": "6111b68a336535d89e51e3264fba8f1d0f9e91de04be31a468354d2b5f1db5f6"
+    },
+    {
+      "bytes": 2663,
+      "path": "includes/Storage/class-storage-installation.php",
+      "sha256": "9a0846db4247985f44dc0b0ad68f49427941ba23ffa9b33c14d2adafee21b9ba"
+    },
+    {
+      "bytes": 1383,
+      "path": "includes/Storage/class-wordpress-connections.php",
+      "sha256": "469f60080fea855e2188e46d40eb24f69d7d217351108381faf14760737db71c"
+    },
+    {
+      "bytes": 6886,
+      "path": "includes/Storage/class-wordpress-snapshot-store.php",
+      "sha256": "d81b2a5bfd009bc497583bef4a5181c7dd10a27fb62b0215852ec379da63f20f"
+    },
+    {
+      "bytes": 539,
+      "path": "includes/Storage/interface-migration-step.php",
+      "sha256": "5d3a11ce5a4ba670fa99dba488db29ff5ed55e04e9ee5cec2be60e33c816a3e0"
+    },
+    {
+      "bytes": 1193,
+      "path": "includes/Storage/interface-snapshot-store.php",
+      "sha256": "8cc4223e9bb730043621ffd1608dc9bdcaae9be71e8ca0458e0abc77f4ecebb1"
+    },
+    {
+      "bytes": 4027,
+      "path": "includes/Theme/class-color-properties.php",
+      "sha256": "b8ce2d31ce8a2b0a294b70ba8a78fd8c782f5881d98a140aefb3360ceb84ce5c"
+    },
+    {
+      "bytes": 5221,
+      "path": "includes/Theme/class-library-changes.php",
+      "sha256": "2c2ef7597e31da8da51e67342a8ff32d91c870728898609764f316eb48e0a74d"
+    },
+    {
+      "bytes": 2063,
+      "path": "includes/Theme/class-palette-resolver.php",
+      "sha256": "6d4d1f9c12307753cbdaaeeb4f5d4b5091b4c02fd2e15f5578640685c0edf2e6"
+    },
+    {
+      "bytes": 1010,
+      "path": "includes/Theme/class-preset-catalog.php",
+      "sha256": "c036fbeb928c6513bdcd00bd8ac16315a482aa4cf10b1d8cb67916aa1e68dad8"
+    },
+    {
+      "bytes": 3038,
+      "path": "includes/Theme/class-theme-operations.php",
+      "sha256": "76bc6934dab426e14fdab9cacea6ba69c57707723cde5514165e6f7bd5daa72f"
+    },
+    {
+      "bytes": 5851,
+      "path": "includes/Theme/class-theme-validator.php",
+      "sha256": "fb1b4f72d9011964ba99730621158b5b6955f142fa7b1ec96fa1bf6d46d42742"
+    },
+    {
+      "bytes": 1529,
+      "path": "includes/Transfer/class-backdrop-adapter.php",
+      "sha256": "a148cc4c120b9416e44151c4666aa7f6812694a6681b86b3a178064fcb02ccde"
+    },
+    {
+      "bytes": 3894,
+      "path": "includes/Transfer/class-export-service.php",
+      "sha256": "947cce4ece3970dacf819bb004fbc07ab45bb6a0974fc901c2fd61c3eb8ed863"
+    },
+    {
+      "bytes": 1456,
+      "path": "includes/Transfer/class-import-planner.php",
+      "sha256": "5d3087bd4b1755455d9d1f892f191b1972a1a6a3be22f003dd61b9e4ccbc5c89"
+    },
+    {
+      "bytes": 4182,
+      "path": "includes/Transfer/class-import-service.php",
+      "sha256": "b01b64d97b34860b0528b618d480627d3daa4b36d0b930ef7fc81724f11c29ea"
+    },
+    {
+      "bytes": 962,
+      "path": "includes/Transfer/class-import-storage-compatibility.php",
+      "sha256": "3008ee3e993433afd8ba180f8843f4fdccd5f8c6195e78f089aca59b831198ac"
+    },
+    {
+      "bytes": 2384,
+      "path": "includes/Transfer/class-json-decoder.php",
+      "sha256": "6e990621185ebacb0f1b46881430381016a2be8241c8498210b64159bab7ea59"
+    },
+    {
+      "bytes": 5149,
+      "path": "includes/Transfer/class-theme-json.php",
+      "sha256": "8aa3f7d83eb7e92887ef579a7b144d43e47023e8cb5eccbbb14f6fcb64e95aa6"
+    },
+    {
+      "bytes": 791,
+      "path": "includes/administration.php",
+      "sha256": "34b4df1c2bcf8f8778f6755525d620a3f57bce8b1ccb86c8dd5fc0424671446c"
+    },
+    {
+      "bytes": 5586,
+      "path": "includes/class-plugin.php",
+      "sha256": "373c5726b7f83cfa48e8fde204ea3264a4f6899e52e6c7a408f76a8636bfe199"
+    },
+    {
+      "bytes": 662,
+      "path": "includes/owned-storage.php",
+      "sha256": "0d3b0f47c4d48803543fb5b3f230bea4241694f1f6ee1e7e79922d0d3a206fef"
+    },
+    {
+      "bytes": 608,
+      "path": "includes/profiles.php",
+      "sha256": "3d24bf76ef71ea32b7f0d0948457e72c9240726959d507123905c1ebf6809288"
+    },
+    {
+      "bytes": 290,
+      "path": "includes/roles.php",
+      "sha256": "e0b556f4fb8b7257e48004d967fe1f62e6a7899d570fa1dd9582ee9b7f07bff7"
+    },
+    {
+      "bytes": 465,
+      "path": "includes/runtime-wordpress.php",
+      "sha256": "0a3e31b2788fbbd2dde7a88d8330ef8a872849090b0bb6a3e9e89446bce2c30e"
+    },
+    {
+      "bytes": 263,
+      "path": "includes/runtime.php",
+      "sha256": "ac4634b586d8a041426ec63c71ee083c4cb5b7d3aafc3dc1b6c8789b61c7ebfa"
+    },
+    {
+      "bytes": 632,
+      "path": "includes/theme-domain.php",
+      "sha256": "7673cce15e0b251905894534e41f245393c420c18b95fa07de6d8f9a7cdc3516"
+    },
+    {
+      "bytes": 191,
+      "path": "includes/theme-export.php",
+      "sha256": "e53739e13614db874ad91e4851ebaed6c2f1bd8222eadb3ece7783a16f5d37b8"
+    },
+    {
+      "bytes": 318,
+      "path": "includes/theme-import.php",
+      "sha256": "96f40cfe4726b6635529c37db43081b14d4380ecea425ba91ae601a945ff4066"
+    },
+    {
+      "bytes": 373,
+      "path": "includes/theme-transfer.php",
+      "sha256": "382b3d0d58c5433349fc19a9e4c51d58cff73e58333fb567edab26e537322833"
+    },
+    {
+      "bytes": 586,
+      "path": "includes/wordpress-storage.php",
+      "sha256": "682ed0bbbbaa2298ff2923f17b58300cbf3159f697a5519f6dda808ce2038dfe"
+    },
+    {
+      "bytes": 204,
+      "path": "languages/README.md",
+      "sha256": "1af682f39254f1be36ecc1a496e1c0b0212766e5b3accf611eeaca7321d3b9ae"
+    },
+    {
+      "bytes": 18092,
+      "path": "licenses/GPL-2.0.txt",
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "bytes": 1073,
+      "path": "licenses/MIT-H5P-THEME-PICKER.txt",
+      "sha256": "6934d3015453129c55f5da0d4c65aabdd7373394b7d02697d96dd7557f1c3489"
+    },
+    {
+      "bytes": 1669,
+      "path": "papijo-h5p-themer-wordpress.php",
+      "sha256": "4544389cd3bfbe052d96dd83f63d9818671031e83ba12dfc45e3bad0f325a6c4"
+    },
+    {
+      "bytes": 14381,
+      "path": "presets/moodle-478fed30d2a4.php",
+      "sha256": "16195cd52281a34d2d59132fc2ddc69158ac5edcbf52f139b4c44fc951ead65a"
+    },
+    {
+      "bytes": 7964,
+      "path": "readme.txt",
+      "sha256": "140fb61f6a39f951cb860c7ca918d3402e73965f29f169c2342d8483cd5de754"
+    }
+  ],
+  "format": 1,
+  "inputs_sha256": "099b372c76d6c15bb64a87a342fecc0952d15a67f036dd76179e3e56f4bafb7e",
+  "requires_php": "7.4",
+  "requires_wordpress": "6.5",
+  "slug": "papijo-h5p-themer-wordpress",
+  "version": "0.1.1-beta.2"
+}

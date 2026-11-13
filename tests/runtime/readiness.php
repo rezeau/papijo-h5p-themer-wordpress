@@ -1,0 +1,34 @@
+<?php
+use Papijo\H5PThemerWordPress\Runtime\Playback_Registry;
+use Papijo\H5PThemerWordPress\Runtime\Theme_Attachment;
+/** Isolated markup/admission fixtures; no CMS or database bootstrap. */
+ob_start();require __DIR__.'/attachment.php';ob_end_clean();$checks=0;
+$policy=array('future_runtime_permitted'=>true,'runtime_suspended'=>false,'blockers'=>array());$context=true;
+$r=new Playback_Registry($gate,static function()use(&$context){return $context;});
+$a=new Theme_Attachment($r,static function(){return true;});
+$assets=array();$GLOBALS['readiness_styles']=array();$a->enqueue();
+same(1,count($assets),'Head asset eligible even before discovery');
+same(false,$assets[0][4],'Controller is head-blocking');
+same(1,count($GLOBALS['readiness_styles']),'Public stylesheet is available before player markup');
+ob_start();$a->footer();same('',ob_get_clean(),'No players emit no footer transport metadata');
+$c=array('id'=>51,'embedType'=>'iframe','library'=>array('id'=>3,'name'=>'H5P.Column','majorVersion'=>1,'minorVersion'=>2,'embedTypes'=>'iframe'),'metadata'=>array('a11yTitle'=>'Nested "QuestionSet"'));
+$html='<div class="h5p-iframe-wrapper"><iframe id="h5p-iframe-51" class="h5p-iframe" data-content-id="51" style="height:1px" src="about:blank" frameBorder="0" scrolling="no" title="Nested &quot;QuestionSet&quot;"></iframe></div>';
+same($html,$r->observe($html,$c),'Registry retains original markup contract');$marked=$a->mark($html,$c);
+same(true,strpos($marked,'class="h5p-iframe-wrapper" data-pjh5pwp-pending="51"')!==false,'Gate is outside internal iframe document');
+same(true,strpos($marked,substr($html,strpos($html,'<iframe ')))!==false,'Entire H5P iframe including title/ID preserved');
+same(true,strpos($marked,'role="status"')<strpos($marked,'data-pjh5pwp-pending'),'Accessible status outside concealed subtree');
+same(true,strpos($marked,'Loading activity appearance')!==false,'Loading status retained for assistive technology');
+same(true,strpos($marked,'data-pjh5pwp-fallback-text=')!==false,'Error status retained');
+same(false,strpos($marked,' inert')!==false,'No server inert attribute can trap JS-disabled users');
+same(false,strpos($marked,'aria-busy')!==false,'Busy presentation armed by JavaScript only');
+same($html.'changed',$a->mark($html.'changed',$c),'Intervening foreign markup not marked');
+same('', $a->tag('<script type="module" src="x"></script>',Theme_Attachment::HANDLE),'Module/deferred bootstrap rejected');
+ob_start();$a->footer();$footer=ob_get_clean();same(true,strpos($footer,'<span hidden data-pjh5pwp-manifest=')===0,'Inert escaped public footer data');
+same(false,strpos($footer,'density')!==false,'No preference resolved in public HTML');
+same(false,strpos($footer,'color_declarations')!==false,'No private palette in public HTML');
+$r->observe($html,$c);same($html,$a->mark($html,$c),'Duplicate identity not marked');ob_start();$a->footer();same('',ob_get_clean(),'Duplicate revokes final metadata');
+$other=new Playback_Registry($gate,static function(){return true;});$external=str_replace('about:blank','https://external.invalid',$html);$other->observe($external,$c);same(array(),$other->candidates(),'External iframe rejected before marker');
+$context=false;$assets=array();$a->enqueue();same(array(),$assets,'Excluded frontend context has no early assets');same($html,$a->mark($html,$c),'Excluded context remains native');$context=true;
+$policy=array('future_runtime_permitted'=>false,'runtime_suspended'=>true,'blockers'=>array('snordian_active'));
+$assets=array();$a->enqueue();same(array(),$assets,'SNORDIAN suppresses early assets');same($html,$a->mark($html,$c),'SNORDIAN suppresses marker');
+echo 'Initial readiness PHP: '.$checks." assertions passed; isolated admission/markup.\n";
