@@ -1,6 +1,8 @@
 # Offline release tooling
 
-Current stable release candidate: **0.2.0**, under [G4 stable preparation authorization](stage-g4-release.md). Published stable 0.1.1 is unchanged.
+Current maintenance candidate: **0.2.1**. See [release notes](release-notes-0.2.1.md). The v0.2.0 procedures and historical evidence below are retained. For 0.2.1 use `--expect-version 0.2.1`; database/lifecycle suites are excluded under the no-database-changes constraint. No candidate installation or publication is authorized.
+
+Historical stable release candidate: **0.2.0**, under [G4 stable preparation authorization](stage-g4-release.md). Published stable 0.1.1 is unchanged.
 See [G4 preparation](stage-g4-release.md), [release notes](release-notes-0.2.0.md) and [current metadata](release-candidate.json).
 Deployment and publication require separate approval. The original failed F3
 preservation check and F6 documented risk acceptance are retained without alteration.

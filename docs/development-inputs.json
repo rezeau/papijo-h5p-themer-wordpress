@@ -66,9 +66,9 @@
       "sha256": "a7bc0d0fd3a22ea314f220653b8a5f5bbda168eb5e7819d4c6c58d61ca706e11"
     },
     {
-      "bytes": 6391,
+      "bytes": 7112,
       "path": "includes/Admin/class-diagnostic-notices.php",
-      "sha256": "756e49abb0882596bd5d35adc189d57ac87e296ede5a9ba8db93eb0b78ccda8e"
+      "sha256": "76ad5d488695abb9371e04be47b12ecd1d85136b2af82496267c8b64c1945b2a"
     },
     {
       "bytes": 3758,
@@ -453,7 +453,7 @@
     {
       "bytes": 1655,
       "path": "papijo-h5p-themer-wordpress.php",
-      "sha256": "2dc5d3970636a1febe66156a5b7410f7a2a1e5e639c4d16b2802e1acd5118aa4"
+      "sha256": "f61855ea9599f372ecd440a02e8f8e6cbe43bfbcbfde80edf213ea48aee1a67e"
     },
     {
       "bytes": 14381,
@@ -461,15 +461,15 @@
       "sha256": "16195cd52281a34d2d59132fc2ddc69158ac5edcbf52f139b4c44fc951ead65a"
     },
     {
-      "bytes": 12018,
+      "bytes": 12895,
       "path": "readme.txt",
-      "sha256": "5ff9b220f7abf3e57517c753b60e7a30612fb9817254a8b9cdb330db01bdd0c9"
+      "sha256": "79dcc665b0baa5758897aa5cd8f68127cd791e6e6a9f58dadf9dfacaf502e96c"
     }
   ],
   "format": 1,
-  "inputs_sha256": "785da82bea97c56fb05f521a10f5d50a1f8d009893adabeafd5aec645d462d57",
+  "inputs_sha256": "493d50f301732792a97631a924da6e42384e72e11a7b11a2afdb7dc25bf8076c",
   "requires_php": "7.4",
   "requires_wordpress": "6.5",
   "slug": "papijo-h5p-themer-wordpress",
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

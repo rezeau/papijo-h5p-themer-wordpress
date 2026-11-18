@@ -98,14 +98,15 @@ class ReleaseTests(unittest.TestCase):
 
     def test_real_source_audit_does_not_create_archive(self):
         # Real source is only audited, never passed to archive_bytes/build.
-        files, manifest = packaging.audit(ROOT, '0.2.0')
+        files, manifest = packaging.audit(ROOT, '0.2.1')
         self.assertEqual(93, len(files))
-        self.assertEqual('0.2.0', manifest['version'])
+        self.assertEqual('0.2.1', manifest['version'])
         self.assertEqual(['6.5', '7.4'], [manifest['requires_wordpress'], manifest['requires_php']])
 
     def test_candidate_metadata_and_requested_acknowledgments(self):
-        candidate = json.loads((ROOT / 'docs/release-candidate.json').read_text(encoding='utf-8'))
-        _files, manifest = packaging.audit(ROOT, '0.2.0')
+        candidate = json.loads((ROOT / 'docs/release-candidate-0.2.0.json').read_text(encoding='utf-8'))
+        _files, current_manifest = packaging.audit(ROOT, '0.2.1')
+        manifest = json.loads((ROOT / 'docs/release-g4-inputs.json').read_text(encoding='utf-8'))
         self.assertEqual(manifest['version'], candidate['version'])
         self.assertEqual('v' + manifest['version'], candidate['proposed_tag'])
         self.assertEqual(common.SLUG + '-' + manifest['version'] + '.zip', candidate['installer_filename'])
@@ -189,7 +190,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(sorted(accepted_files), [f['path'] for f in manifest['files']])
         self.assertEqual(['papijo-h5p-themer-wordpress.php', 'readme.txt'],
                          [f['path'] for f in manifest['files'] if f != accepted_files[f['path']]])
-        beta_entry = _files[common.ENTRY].replace(b'0.2.0', b'0.2.0-beta.1')
+        beta_entry = _files[common.ENTRY].replace(b'0.2.1', b'0.2.0-beta.1')
         self.assertEqual(accepted_files[common.ENTRY]['sha256'], common.digest(beta_entry))
         old_files = {f['path']: f for f in f6_inputs['files']}
         self.assertEqual(sorted(old_files), [f['path'] for f in manifest['files']])
@@ -239,7 +240,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual('fe3ad9c83d66eef9b9f517b33e0ec52ab0ceee44f023bd70dff32c414394e2a7',
                          common.digest(('\n'.join(f['path'] for f in frozen['files']) + '\n').encode()))
         working = json.loads((ROOT / 'docs/development-inputs.json').read_text(encoding='utf-8'))
-        self.assertEqual(manifest, working)
+        self.assertEqual(current_manifest, working)
         self.assertNotEqual(working['inputs_sha256'], frozen['inputs_sha256'])
         self.assertFalse(candidate['github_prerelease'])
         self.assertFalse(candidate['runtime_behavior_changed'])
@@ -255,6 +256,30 @@ The author also wishes to acknowledge previous work on H5P theming by:
 These earlier projects contributed to the development of H5P theming solutions across different platforms.
 Papi Jo H5P Themer for WordPress is an independent project and is not affiliated with or officially maintained by the authors of those earlier plugins.'''
         self.assertEqual(' '.join(expected.split()), ' '.join(acknowledgment.split()))
+
+    def test_maintenance_candidate_preserves_published_contracts(self):
+        files, manifest = packaging.audit(ROOT, '0.2.1')
+        baseline = json.loads((ROOT / 'docs/release-g4-inputs.json').read_text())
+        stable = json.loads((ROOT / 'docs/release-candidate-0.2.0.json').read_text())
+        candidate = json.loads((ROOT / 'docs/release-candidate.json').read_text())
+        self.assertEqual('3e04578111bdc34531bba139286ddc83145f09e6b0a1298bf42e43d36d59165f', stable['installer_sha256'])
+        self.assertEqual(common.digest(common.canonical({k:v for k,v in baseline.items() if k != 'inputs_sha256'})), baseline['inputs_sha256'])
+        old = {f['path']:f for f in baseline['files']}
+        self.assertEqual(['includes/Admin/class-diagnostic-notices.php', common.ENTRY, 'readme.txt'],
+                         [f['path'] for f in manifest['files'] if f != old[f['path']]])
+        self.assertEqual(old[common.ENTRY]['sha256'], common.digest(files[common.ENTRY].replace(b'0.2.1', b'0.2.0')))
+        self.assertEqual(stable, candidate['previous_candidate'])
+        self.assertEqual('0.2.1', candidate['version'])
+        self.assertEqual('v0.2.1', candidate['proposed_tag'])
+        self.assertEqual('papijo-h5p-themer-wordpress-0.2.1.zip', candidate['installer_filename'])
+        self.assertEqual(manifest['inputs_sha256'], candidate['source_inputs_sha256'])
+        self.assertEqual(93, candidate['installer_files'])
+        self.assertRegex(candidate['installer_sha256'], r'^[0-9a-f]{64}$')
+        self.assertGreater(candidate['installer_bytes'], 0)
+        self.assertFalse(candidate['manual_acceptance']['absent_warning_manually_rendered_in_firefox'])
+        self.assertFalse(candidate['manual_acceptance']['applies_to_current_candidate_bytes'])
+        for field in ['storage_backend', 'legacy_migration', 'runtime_behavior_changed', 'requires_php', 'requires_wordpress', 'accepted_runtime_limitations', 'preservation_disposition']:
+            self.assertEqual(stable[field], candidate[field])
 
     def test_exact_synthetic_inventory(self):
         files, manifest = packaging.audit(self.root, '0.1.0')

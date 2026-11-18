@@ -3,7 +3,7 @@ Contributors: rezeau
 Tags: h5p, accessibility
 Requires at least: 6.5
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -11,7 +11,13 @@ Independent Theme and Density preferences for supported WordPress H5P playback.
 
 == Description ==
 
-Version 0.2.0 is prepared locally from accepted 0.2.0-beta.1 with no functional
+Version 0.2.1 is a maintenance candidate with clearer first-installation setup
+instructions and a link to the registered Themes administration page. Existing
+initialized libraries show no setup warning. Initialization and data retention
+are unchanged. The absent-storage warning was accepted using isolated automated
+tests; it was not manually rendered in Firefox.
+
+Historical v0.2.0 was prepared locally from accepted 0.2.0-beta.1 with no functional
 changes. It supports Administrator and authorized Subscriber Theme and Density in
 the official H5P administration activity viewer, using personal preferences and
 Global Default fallback on the exact admin.php?page=h5p&task=show&id=<ID> screen.
@@ -122,6 +128,13 @@ or importing colors does not change Density or personal preferences.
 No. It is independent and conservatively suspends its playback while SNORDIAN is active.
 
 == Changelog ==
+
+= 0.2.1 =
+
+* Clarify the first-installation Theme-storage warning and link to the registered Themes administration page.
+* Show setup instructions only for an absent Theme library; initialized storage remains unaffected.
+* Preserve explicit administrator initialization, storage, permissions, preferences and uninstall/reinstall data retention.
+* Owner reports Firefox Tests 1 and 2 PASS; Test 3 accepted via isolated automated tests. The absent warning was not manually rendered in Firefox.
 
 = 0.2.0 =
 * Stable promotion of accepted 0.2.0-beta.1; no functional runtime changes.

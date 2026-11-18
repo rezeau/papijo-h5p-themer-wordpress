@@ -61,6 +61,18 @@ function __( $text, $domain ) {
 }
 function esc_html( $text ) { return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' ); }
 function esc_html__( $text, $domain ) { return esc_html( __( $text, $domain ) ); }
+if ( ! function_exists( 'esc_url' ) ) {
+	function esc_url( $url ) { return esc_html( $url ); }
+}
+function add_submenu_page( $parent, $title, $label, $cap, $slug, $callback ) {
+	$GLOBALS['pjh5pwp_menu_urls'][$slug] = 'https://fixture.invalid/wp-admin/' . ( 'h5p' === $parent ? 'admin.php' : $parent ) . '?page=' . $slug;
+	return $parent . '_page_' . $slug;
+}
+function add_options_page( $title, $label, $cap, $slug, $callback ) { return add_submenu_page( 'options-general.php', $title, $label, $cap, $slug, $callback ); }
+function menu_page_url( $slug, $echo = true ) {
+	pjh5pwp_check( false === $echo && isset( $GLOBALS['pjh5pwp_menu_urls'][$slug] ), 'Resolve registered route without echo' );
+	return $GLOBALS['pjh5pwp_menu_urls'][$slug];
+}
 function load_plugin_textdomain( $domain, $deprecated, $path ) {
 	pjh5pwp_check( $GLOBALS['pjh5pwp_i18n_ready'], 'Translation loader runs at init' );
 	pjh5pwp_check( 'papijo-h5p-themer-wordpress/languages' === $path, 'Translation path' );
@@ -173,6 +185,63 @@ $GLOBALS['pjh5pwp_can_manage'] = true;
 $GLOBALS['pjh5pwp_screen'] = null;
 ob_start(); call_user_func( $notice ); ob_end_clean();
 $header = get_file_data( PJH5PWP_FILE, array( 'name' => 'Plugin Name', 'version' => 'Version', 'domain' => 'Text Domain', 'php' => 'Requires PHP', 'license' => 'License' ) );
+if ( 'compatible' === $scenario ) {
+	// Exercise the actual notice/status composition using memory only. Never bootstrap WP.
+	class wpdb {}
+	$GLOBALS['wpdb'] = new wpdb();
+	$store = new class implements \Papijo\H5PThemerWordPress\Storage\Snapshot_Store {
+		public $state = null;
+		public $fault;
+		public $reads = 0;
+		public function read() { ++$this->reads; if ( $this->fault ) { throw new \Papijo\H5PThemerWordPress\Storage\Storage_Exception( $this->fault ); } return $this->state; }
+		public function compare_and_swap( $revision, array $next ) { throw new RuntimeException( 'Notice attempted a storage mutation' ); }
+	};
+	$property = new ReflectionProperty( Plugin::class, 'theme_store' );
+	$property->setAccessible( true );
+	$property->setValue( Plugin::instance(), $store );
+	$render_notice = static function () use ( $notice ) { ob_start(); call_user_func( $notice ); return ob_get_clean(); };
+	$GLOBALS['pjh5pwp_screen'] = 'plugins';
+	$controller = new \Papijo\H5PThemerWordPress\Admin\Admin_Controller( static function () { throw new RuntimeException( 'Unexpected administration operation' ); } );
+	foreach ( array( true, false ) as $h5p_parent ) {
+		$GLOBALS['menu'] = $h5p_parent ? array( array( 'H5P Content', 'manage_options', 'h5p' ) ) : array();
+		$controller->menu();
+		$url = $GLOBALS['pjh5pwp_menu_urls'][\Papijo\H5PThemerWordPress\Admin\Admin_Controller::SLUG];
+		pjh5pwp_check( $url === 'https://fixture.invalid/wp-admin/' . ( $h5p_parent ? 'admin.php' : 'options-general.php' ) . '?page=pjh5pwp-themes', 'Actual menu registration selects H5P or Settings route' );
+		// Stress attribute escaping independently of route selection.
+		$GLOBALS['pjh5pwp_menu_urls'][\Papijo\H5PThemerWordPress\Admin\Admin_Controller::SLUG] .= '&probe="<test>';
+		$html = $render_notice();
+		pjh5pwp_check( strpos( $html, 'href="' . esc_url( $url . '&probe="<test>' ) . '">Papi Jo H5P Themes</a>' ) !== false, 'Registered URL is escaped in setup link' );
+		pjh5pwp_check( strpos( $html, '&amp;probe=&quot;&lt;test&gt;' ) !== false, 'URL cannot inject HTML attributes' );
+		foreach ( array( 'Papi Jo H5P Themer — Setup required', 'Theme storage has not been initialized. No data has been changed.', 'To complete setup, go to H5P Content → ', 'and click Initialize theme storage.', 'Initialization requires an explicit administrator action to protect existing data.' ) as $text ) {
+			pjh5pwp_check( strpos( $html, $text ) !== false, 'Absent-library setup instruction: ' . $text );
+		}
+	}
+	$reads = $store->reads;
+	$GLOBALS['pjh5pwp_can_manage'] = false;
+	pjh5pwp_check( '' === $render_notice() && $reads === $store->reads, 'Unauthorized Plugins visitor sees no link and triggers no storage read' );
+	$GLOBALS['pjh5pwp_can_manage'] = true;
+	foreach ( array( 'dashboard', 'h5p_page_pjh5pwp-themes', null ) as $screen ) {
+		$GLOBALS['pjh5pwp_screen'] = $screen;
+		pjh5pwp_check( '' === $render_notice() && $reads === $store->reads, 'Setup notice stays restricted to Plugins' );
+	}
+	$GLOBALS['pjh5pwp_screen'] = 'plugins';
+	$store->state = \Papijo\H5PThemerWordPress\Storage\Schema::initial();
+	$preserved = serialize( $store->state );
+	pjh5pwp_check( '' === $render_notice(), 'Initialized library with zero custom Themes has no warning' );
+	$property->setValue( Plugin::instance(), $store ); // Reconstructed composition reuses preserved storage.
+	$reinstalled_notice = new \Papijo\H5PThemerWordPress\Admin\Diagnostic_Notices( $policy );
+	ob_start(); $reinstalled_notice->render(); $html = ob_get_clean();
+	pjh5pwp_check( '' === $html && $preserved === serialize( $store->state ), 'Reinstalled composition preserves valid library without initialization warning' );
+	foreach ( array( 'owned_state_installation_required', 'owned_state_schema_unsupported', 'owned_state_legacy_unsupported', 'storage_write_failed', 'storage_read_failed' ) as $fault ) {
+		$store->fault = $fault;
+		$html = $render_notice();
+		pjh5pwp_check( strpos( $html, 'notice-warning' ) !== false && strpos( $html, 'Setup required' ) === false && strpos( $html, '<a ' ) === false, 'Distinct storage diagnostic without setup action: ' . $fault );
+	}
+	$store->fault = null;
+	pjh5pwp_check( $preserved === serialize( $store->state ) && $before_options === $GLOBALS['pjh5pwp_options'], 'Rendering preserves storage and options' );
+	unset( $GLOBALS['wpdb'] );
+	$property->setValue( Plugin::instance(), null );
+}
 pjh5pwp_check( 'Papi Jo H5P Themer for WordPress' === $header['name'] && PJH5PWP_VERSION === $header['version'], 'Plugin header identity/version' );
 pjh5pwp_check( 'papijo-h5p-themer-wordpress' === $header['domain'] && '7.4' === $header['php'] && 'GPL-3.0-or-later' === $header['license'], 'Plugin header requirements' );
 echo json_encode( array( 'scenario' => $scenario, 'checks' => $GLOBALS['pjh5pwp_checks'], 'status' => $status ) ) . PHP_EOL;

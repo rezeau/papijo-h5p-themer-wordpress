@@ -59,6 +59,7 @@ docs/public-source-allowlist.txt
 docs/public-source-preparation.md
 docs/release-candidate-0.1.1.json
 docs/release-candidate-0.2.0-beta.1.json
+docs/release-candidate-0.2.0.json
 docs/release-candidate-beta1.json
 docs/release-candidate-beta2.json
 docs/release-candidate-beta3.json
@@ -68,8 +69,10 @@ docs/release-f3-inputs.json
 docs/release-f6-inputs.json
 docs/release-f8-inputs.json
 docs/release-g2-inputs.json
+docs/release-g4-inputs.json
 docs/release-notes-0.1.1.md
 docs/release-notes-0.2.0.md
+docs/release-notes-0.2.1.md
 docs/release-preparation.md
 docs/release-tooling.md
 docs/release-zip-allowlist.txt

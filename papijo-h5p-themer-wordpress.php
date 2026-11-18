@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Papi Jo H5P Themer for WordPress
  * Description: Independent H5P Themer foundation with dependency diagnostics and runtime conflict protection.
- * Version: 0.2.0
+ * Version: 0.2.1
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: Papi Jo
@@ -18,7 +18,7 @@ namespace Papijo\H5PThemerWordPress;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PJH5PWP_VERSION', '0.2.0' );
+define( 'PJH5PWP_VERSION', '0.2.1' );
 define( 'PJH5PWP_FILE', __FILE__ );
 
 require_once __DIR__ . '/includes/Compatibility/class-wordpress-environment.php';

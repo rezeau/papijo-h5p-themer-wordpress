@@ -1,6 +1,8 @@
 # Installation and acceptance guide
 
-Stable candidate prepared: **0.2.0**, from accepted 0.2.0-beta.1 without functional
+Current maintenance candidate: **0.2.1**. See [release notes](release-notes-0.2.1.md). The v0.2.0 procedures and historical evidence below are retained. For 0.2.1 use `--expect-version 0.2.1`; database/lifecycle suites are excluded under the no-database-changes constraint. No candidate installation or publication is authorized.
+
+Historical stable candidate prepared: **0.2.0**, from accepted 0.2.0-beta.1 without functional
 changes. See [G4 verification](stage-g4-release.md), [release notes](release-notes-0.2.0.md)
 and [current metadata](release-candidate.json). The owner reported 17/17 G3B Firefox
 tests PASS; Codex did not independently reproduce them or deploy stable bytes.

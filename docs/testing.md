@@ -1,5 +1,7 @@
 # Automated test inventory
 
+Current maintenance candidate: **0.2.1**. See [release notes](release-notes-0.2.1.md). The v0.2.0 procedures and historical evidence below are retained. For 0.2.1 use `--expect-version 0.2.1`; database/lifecycle suites are excluded under the no-database-changes constraint. No candidate installation or publication is authorized.
+
 ## Stage G4 stable 0.2.0 preparation
 
 G4 preserves the accepted beta.1 implementation and runs the current 45 non-database

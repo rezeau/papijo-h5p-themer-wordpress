@@ -54,7 +54,12 @@ final class Diagnostic_Notices {
 		}
 		switch ( $state ) {
 			case 'absent':
-				$message = __( 'Theme storage is not initialized. No data was changed. Initialization requires an explicitly authorized installation step.', 'papijo-h5p-themer-wordpress' ); break;
+				$link = '<a href="' . esc_url( menu_page_url( Admin_Controller::SLUG, false ) ) . '">' . esc_html__( 'Papi Jo H5P Themes', 'papijo-h5p-themer-wordpress' ) . '</a>';
+				echo '<div class="notice notice-warning pjh5pwp-diagnostic"><p><strong>' . esc_html__( 'Papi Jo H5P Themer — Setup required', 'papijo-h5p-themer-wordpress' ) . '</strong></p><p>' . esc_html__( 'Theme storage has not been initialized. No data has been changed.', 'papijo-h5p-themer-wordpress' ) . '</p><p>';
+				/* translators: %s: link to the registered Papi Jo H5P Themes administration page. */
+				echo sprintf( esc_html__( 'To complete setup, go to H5P Content → %s and click Initialize theme storage.', 'papijo-h5p-themer-wordpress' ), $link );
+				echo '</p><p>' . esc_html__( 'Initialization requires an explicit administrator action to protect existing data.', 'papijo-h5p-themer-wordpress' ) . '</p></div>';
+				return;
 			case 'upgrade_required':
 				$message = __( 'Theme storage requires an explicit schema upgrade. Existing data is preserved; no migration runs from this notice.', 'papijo-h5p-themer-wordpress' ); break;
 			case 'newer_storage_schema':

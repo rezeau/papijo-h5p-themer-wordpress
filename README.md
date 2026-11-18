@@ -1,9 +1,11 @@
 # Papi Jo H5P Themer for WordPress
 
+Maintenance candidate **0.2.1** improves only the first-installation Theme-storage warning and its administration link. Existing initialized libraries do not show it. Storage, explicit initialization and uninstall/reinstall retention are unchanged. See [0.2.1 release notes](docs/release-notes-0.2.1.md). The project owner reports Firefox Tests 1 and 2 PASS; Test 3 is accepted using isolated automated tests. The absent-storage warning was not manually rendered in Firefox. This candidate has not been installed or published.
+
 Independent Theme and Density preferences for supported WordPress H5P playback.
 This is not a fork of SNORDIAN’s H5P Themer.
 
-**Stable release candidate: 0.2.0**, prepared locally under [Stage G4](docs/stage-g4-release.md)
+**Historical v0.2.0 preparation**, prepared locally under [Stage G4](docs/stage-g4-release.md)
 from accepted 0.2.0-beta.1 without functional changes. It supports Theme and Density
 in the official H5P administration activity viewer, with authenticated content
 access, personal preferences and Global Default fallback. All 17 Stage G3B Firefox
