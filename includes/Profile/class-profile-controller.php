@@ -37,7 +37,8 @@ final class Profile_Controller {
 		$nonce=wp_create_nonce($this->service->nonce_for($id,$record));
 		if(isset($this->attempt[$id])){$nonce=$this->attempt[$id]['nonce'];$posted=$this->attempt[$id]['payload'];if(is_array($posted)){foreach(array('theme','density') as $field){if(isset($posted[$field])&&is_string($posted[$field])){$v[$field]=$posted[$field];}}}}
 		echo '<input type="hidden" name="pjh5pwp_profile_nonce" value="'.esc_attr(is_string($nonce)?$nonce:'').'"><table class="form-table" role="presentation">';
-		$state=$this->service->state();$choices=$this->service->catalog($state);$labels=array();foreach($choices as $token=>$entry){$labels[$token]=$entry['label'];}$labels['site_default']='Use site default';$labels['core']='H5P Core';
+		$state=$this->service->state();$choices=$this->service->catalog($state);$labels=array();foreach($choices as $token=>$entry){$labels[$token]=$entry['label'];}$labels['site_default']='Use site default';unset($labels['core']);
+		if ($v['theme']==='core') { $labels=array('core'=>'H5P Core defaults (saved preference)')+$labels; }
 		$selected=is_string($v['theme'])&&isset($labels[$v['theme']])?$v['theme']:'site_default';
 		if(is_string($v['theme'])&&''!==$v['theme']&&!isset($labels[$v['theme']])){
 			echo '<tr><td colspan="2"><p>'.$this->t('The saved theme is unavailable. The global default is used. Keep the saved preference or explicitly choose a replacement.').'</p></td></tr>';
@@ -50,7 +51,7 @@ final class Profile_Controller {
 	}
 	private function selector($field,array $choices,$selected,$disabled=false,$after=''){
 		echo '<tr><th scope="row"><label for="pjh5pwp-'.$field.'">'.$this->t('theme'===$field?'Personal H5P theme':'Native Density').'</label></th><td><select id="pjh5pwp-'.$field.'"'.($disabled?' disabled':' name="pjh5pwp_profile['.$field.']"').'>';
-		foreach($choices as $value=>$label){echo '<option value="'.esc_attr($value).'"'.($value===$selected?' selected':'').'>'.$this->t($label).'</option>';}
+		foreach($choices as $value=>$label){echo '<option value="'.esc_attr($value).'"'.($value===$selected?' selected':'').($field==='theme'&&$value==='core'?' disabled':'').'>'.$this->t($label).'</option>';}
 		echo '</select>'.$after.'</td></tr>';
 	}
 	public function validate($errors,$update,$user){

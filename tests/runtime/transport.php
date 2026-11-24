@@ -64,7 +64,7 @@ same( array( 'foreign' ), $endpoint->cors_origins( array( 'foreign' ) ), 'Other 
 foreach ( array( 0, 3, 1, 2 ) as $viewer ) {
 	save_fixture( 'builtin:mint', 'small', $viewer ); $r = request_transport(); $d = $r['body']['appearance'];
 	same( 200, $r['status'], 'Anonymous/unauthorized/Administrator/authorized receive safe descriptors' );
-	same( in_array( $viewer, array( 1, 2 ), true ) ? 'mint' : 'lavender', $d['theme']['id'], 'Current viewer permission applied' );
+	same( in_array( $viewer, array( 1, 2 ), true ) ? 'mint' : ($viewer===0?'effective':'lavender'), $d['theme']['id'], 'Current viewer permission applied' );
 	same( in_array( $viewer, array( 1, 2 ), true ) ? 'small' : 'original', $d['density']['selection'], 'Independent Density' );
 	same( array( 'version', 'request_id', 'refresh', 'appearance' ), array_keys( $r['body'] ), 'Minimal versioned envelope' );
 	same( array( 'admission', 'theme', 'color_declarations', 'density' ), array_keys( $d ), 'Original descriptor only' );
@@ -83,12 +83,13 @@ foreach ( array( array( 'core', 'original', 'core' ), array( 'builtin:lavender',
 }
 save_fixture( 'builtin:mint', 'small' ); $viewer = 2;
 same( 'mint', request_transport()['body']['appearance']['theme']['id'], 'Logged in' );
-$viewer = 0; same( 'lavender', request_transport()['body']['appearance']['theme']['id'], 'Logout recomputes global' );
+$viewer = 0; same( 'effective', request_transport()['body']['appearance']['theme']['id'], 'Logout recomputes global' );
 $viewer = 1; save_fixture( 'core', 'original', 1 ); same( 'core', request_transport()['body']['appearance']['theme']['kind'], 'User switch has no stale result' );
 $viewer = 2; $role_store->grants = array(); same( 'original', request_transport()['body']['appearance']['density']['selection'], 'Unauthorized Subscriber uses Original after revocation' );
 $role_store->grants = array( 'subscriber' => true ); same( 'small', request_transport()['body']['appearance']['density']['selection'], 'Authorized Subscriber restoration uses stored value' );
 $old_state = $state; $state['settings']['default_theme'] = builtin( 'mint' ); $viewer = 0;
-same( 'mint', request_transport()['body']['appearance']['theme']['id'], 'Global change immediate' ); $state = $old_state;
+same( 'effective', request_transport()['body']['appearance']['theme']['id'], 'Global identity redacted' );
+same( $service->describe(0)['color_declarations'], request_transport()['body']['appearance']['color_declarations'], 'Global colors change immediately' ); $state = $old_state;
 same( str_repeat( 'b', 32 ), request_transport( array(), array( 'request_id' => str_repeat( 'b', 32 ) ) )['body']['request_id'], 'Fresh caller correlation echoed without identity' );
 same( array( 'max_age_seconds' => 30, 'reuse' => false ), request_transport()['body']['refresh'], 'Bounded in-memory life, no reuse' );
 
@@ -146,6 +147,16 @@ $throwing = new Appearance_Endpoint( $service, static function () { throw new Ru
 $r = $throwing->respond( $server, array(), $post, $home, $admin ); no_instructions( $r );
 check( false === strpos( json_encode( $r ), 'PRIVATE_SECRET' ), 'No internal exception leakage' );
 
+
+$viewer=0;
+$r=request_transport(array(),array('expected_audience'=>'authenticated'));
+same(409,$r['status'],'Logout requires user reload');no_instructions($r);
+$viewer=2;$reads=$profile_store->reads;
+$r=request_transport(array(),array('expected_audience'=>'default'));
+same(409,$r['status'],'Sign-in from default page requires user reload');no_instructions($r);
+same($reads,$profile_store->reads,'Transition never reads account preferences');
+same(400,request_transport(array(),array('expected_audience'=>'forged'))['status'],'Unknown audience rejected');
+same(200,request_transport(array(),array('expected_audience'=>'authenticated'))['status'],'Stable authenticated audience');
 // Use installed H5P source definitions only, never H5P bootstrap/get_instance/add_assets.
 if ( ! isset( $argv[1] ) || ! is_file( $argv[1] . '/autoloader.php' ) ) { throw new RuntimeException( 'Supply installed H5P source root' ); }
 require $argv[1] . '/autoloader.php';

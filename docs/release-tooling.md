@@ -1,6 +1,8 @@
 # Offline release tooling
 
-Current maintenance candidate: **0.2.1**. See [release notes](release-notes-0.2.1.md). The v0.2.0 procedures and historical evidence below are retained. For 0.2.1 use `--expect-version 0.2.1`; database/lifecycle suites are excluded under the no-database-changes constraint. No candidate installation or publication is authorized.
+Current release preparation: **0.3.0**; use `--expect-version 0.3.0` and the current input manifest. The installer policy contains 100 files. Final publication and deployment remain unapproved.
+
+Historical maintenance candidate: **0.2.1**. See [release notes](release-notes-0.2.1.md). The v0.2.0 procedures and historical evidence below are retained. For 0.2.1 use `--expect-version 0.2.1`; database/lifecycle suites are excluded under the no-database-changes constraint. No candidate installation or publication is authorized.
 
 Historical stable release candidate: **0.2.0**, under [G4 stable preparation authorization](stage-g4-release.md). Published stable 0.1.1 is unchanged.
 See [G4 preparation](stage-g4-release.md), [release notes](release-notes-0.2.0.md) and [current metadata](release-candidate.json).

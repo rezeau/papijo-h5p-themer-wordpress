@@ -6,3 +6,8 @@ require_once __DIR__ . '/Runtime/class-wordpress-context.php';
 require_once __DIR__ . '/Runtime/class-playback-registry.php';
 require_once __DIR__ . '/Runtime/class-appearance-endpoint.php';
 require_once __DIR__ . '/Runtime/class-theme-attachment.php';
+
+require_once __DIR__ . '/Runtime/class-delivery-mode.php';
+require_once __DIR__ . '/Anonymous/class-public-appearance.php';
+require_once __DIR__ . '/Anonymous/class-player-grants.php';
+require_once __DIR__ . '/Anonymous/class-appearance-endpoint.php';

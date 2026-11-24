@@ -34,7 +34,16 @@ final class Appearance_Endpoint {
 	public function respond( array $server, array $get, array $post, $home, $admin ) {
 		$error = $this->request_error( $server, $get, $post, $home, $admin );
 		if ( null !== $error ) { return $this->response( $error[0], $this->suspended( $error[1] ), null ); }
-		try { $descriptor = $this->appearance->describe( call_user_func( $this->viewer ) ); }
+		try {
+			$viewer=call_user_func($this->viewer);
+			if (isset($post['expected_audience']) && $post['expected_audience']!==($viewer===0?'default':'authenticated')) {
+				return $this->response(409,$this->suspended('authentication_changed'),$post['request_id']);
+			}
+			$descriptor = $this->appearance->describe($viewer);
+			if ($viewer===0 && true===($descriptor['admission']['permitted']??null)) {
+				$descriptor['theme']=array('source'=>$descriptor['theme']['source'],'kind'=>'custom','id'=>'effective','version'=>null);
+			}
+		}
 		catch ( \Throwable $error ) { $descriptor = $this->suspended( 'appearance_unavailable' ); }
 		return $this->response( 200, $descriptor, $post['request_id'] );
 	}
@@ -43,8 +52,9 @@ final class Appearance_Endpoint {
 		if ( ! WordPress_Context::same_origin_request( $server, $home, $admin ) ) { return array( 403, 'unsupported_context' ); }
 		$frontend = WordPress_Context::request_allowed( $server, $home, $admin );
 		if ( ! $frontend && ! WordPress_Context::admin_transport_allowed( $server, $post, $admin ) ) { return array( 403, 'unsupported_context' ); }
+		if (isset($post['expected_audience']) && !in_array($post['expected_audience'],array('authenticated','default'),true)) { return array(400,'invalid_request'); }
 		// Exact schema rejects user_id, theme, density, CSS, nonce and unknown/forged fields.
-		if ( $get || count( $post ) !== ( $frontend ? 2 : 5 ) || self::ACTION !== ( $post['action'] ?? null ) ||
+		if ( $get || count( $post ) !== ( $frontend ? (isset($post['expected_audience'])?3:2) : 5 ) || self::ACTION !== ( $post['action'] ?? null ) ||
 			! is_string( $post['request_id'] ?? null ) || ! preg_match( '/\A[a-f0-9]{32}\z/', $post['request_id'] ) ) {
 			return array( 400, 'invalid_request' );
 		}

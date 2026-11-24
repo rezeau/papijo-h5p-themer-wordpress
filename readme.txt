@@ -3,7 +3,7 @@ Contributors: rezeau
 Tags: h5p, accessibility
 Requires at least: 6.5
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -11,123 +11,49 @@ Independent Theme and Density preferences for supported WordPress H5P playback.
 
 == Description ==
 
-Version 0.2.1 is a maintenance candidate with clearer first-installation setup
-instructions and a link to the registered Themes administration page. Existing
-initialized libraries show no setup warning. Initialization and data retention
-are unchanged. The absent-storage warning was accepted using isolated automated
-tests; it was not manually rendered in Firefox.
+Version 0.3.0 integrates anonymous Theme and Density selection into the main plugin.
+An independent administrator checkbox enables it and is disabled by default.
+One initially collapsed H5P appearance disclosure above the first eligible activity
+controls admitted activities on that page. Saved browser-local preferences apply
+automatically; Theme, Density and Restore defaults remain independent of signed-in
+users' database preferences. Published custom Themes are supported.
 
-Historical v0.2.0 was prepared locally from accepted 0.2.0-beta.1 with no functional
-changes. It supports Administrator and authorized Subscriber Theme and Density in
-the official H5P administration activity viewer, using personal preferences and
-Global Default fallback on the exact admin.php?page=h5p&task=show&id=<ID> screen.
-Content-access checks and session-bound nonces remain mandatory. The project owner
-reported all 17 G3B Firefox tests PASS; Codex did not independently reproduce them.
-Published stable 0.1.1 and its artifacts remain unchanged. Theme-library and
-role-permission state use a plugin-owned InnoDB table. WordPress options may use
-MyISAM or InnoDB and are never converted by Papi Jo. The separate InnoDB Profile
-table, Theme/Density runtime behavior and SNORDIAN coexistence are preserved.
-Legacy pre-F2 Theme/permission options are detected and refused without migration,
-reset or deletion. Preserve those installations and use a separate fresh site.
-The accepted beta.3 baseline passed 3/3 user-reported Firefox smoke tests in F7;
-beta.2 passed 25/25 user-reported Firefox acceptance tests in F4. These manual
-results were not independently reproduced by Codex. Stable 0.2.0 preparation changes
-version and release metadata/documentation only relative to accepted 0.2.0-beta.1. Publication and deployment require separate approval.
+End-user dropdowns no longer offer H5P Core defaults as a new choice. Existing Core
+preferences and administrator Core options are preserved. The standalone Anonymous
+companion is no longer needed and must be deactivated; its preferences are not migrated.
 
-Features include five immutable built-in Themes (Daylight, Lavender, Mint, Sunset,
-Dark); custom Themes with pinned inheritance; publication and global defaults;
-Theme color Export/Import; role-based own-Profile Theme and independent Density
-preferences; isolated representative color previews; and qualified frontend DIV
-and internal H5P iframe playback. There are no per-activity selectors.
-
-Theme color JSON exports one, selected or all custom Themes, including unpublished
-Themes. Import validates WordPress colors-only or compatible Backdrop custom Theme
-JSON, then requires review and confirmation. Upload limit: 1 MiB / 100 Themes.
-Existing Themes are not overwritten; new Themes remain unpublished. Density,
-personal preferences, publication, roles and global defaults are not transferred.
-Legacy Backdrop Density metadata is ignored.
-
-Runtime attachment defaults on when PJH5PWP_ENABLE_BROWSER_THEME is undefined or
-boolean true; false and all other values disable it. Compatibility and context
-admission remain mandatory. Active SNORDIAN suspends both Papi Jo Theme and Density
-playback. Eligible Profile users then see an explanatory notice instead of Papi Jo
-selectors/preview; submissions are ignored and saved preferences are preserved.
-Theme administration and transfer remain available. SNORDIAN files, options,
-callbacks and activation state are never changed by Papi Jo.
-
-== Requirements and limitations ==
-
-Declared targets: WordPress 6.5 and PHP 7.4 or later; not a complete tested matrix.
-Inspected local reference: WordPress 7.1.4, official H5P 1.17.10, Core API exactly
-1.28. Canonical h5p/h5p.php integration, class/method locations and asset emitters
-are checked. Version alone does not prove compatibility. Missing/unsupported H5P
-allows activation and diagnostics, with runtime suspended.
-
-Single-site only. Storage needs standard MySQL-backed wpdb, mysqli, InnoDB,
-autocommit, nonpersistent private connections and supported owned-table schemas.
-Theme/role state uses a plugin-owned InnoDB State table; WordPress options may use
-MyISAM. Legacy options-based development installations are refused without migration
-or reset. Preserve their data/code and use a separate fresh development installation.
-The former Administrator and Subscriber viewing limitations are resolved for
-the accepted official H5P activity viewer only. This does not support arbitrary
-wp-admin pages or the separate external h5p_embed endpoint. Supported ordinary-page
-playback, DIV/internal iframe rendering, multiple activities, independent personal
-Theme/Density, SNORDIAN suspension/restoration and permission revocation/restoration
-were covered by owner-reported G3B Firefox acceptance. Legacy activities using an
-H5P API earlier than 1.28 receive no Papi Jo Theme or Density styling.
-External/cross-origin embeds, framed parent pages, editors, content lists, results,
-unrelated administration pages and ambiguous players remain excluded. Library-specific variable/class use is required.
-No universal browser/library/hosting or accessibility certification is claimed.
-
-Unresolved slow-network readiness limitation: the initial 15-second head-start
-budget can expire before DOM readiness, H5P/CSS initialization or iframe sizing.
-Native content is revealed with fallback, but automatic personal Theme/Density
-may remain absent for that document. Characterization tests do not resolve this.
-Slow-network readiness has not been fully verified; the owner may investigate
-separately on an online WordPress test site. Timeout behavior is unchanged.
-
-G3A preserved all 28 schemas, Papi Jo Themes/defaults, preferences, role permissions
-and plugin-owned tables. The wp_options row fingerprint changed and reported next
-AUTO_INCREMENT changed from 262 to 263; attribution remains unverified. The owner
-accepts this for stable 0.2.0: ACCEPTED RESIDUAL RISK — NOT A RELEASE BLOCKER.
-Full-database preservation is not a PASS. No database reset is part of this release.
-
-Descriptor authority expires after 30 seconds; remote changes have no instant push.
-Asset order, CSP, optimizers and caching need target-site testing. No multisite,
-automatic legacy migration, uninstall deletion or translated catalogs are supplied.
+Theme editing, publication, global defaults, color Export/Import, role-based Profile
+preferences and the qualified official H5P administration activity viewer are retained.
+Active SNORDIAN suspends Papi Jo appearance and Profile controls while preserving
+saved preferences; Theme administration remains available. SNORDIAN is never modified.
 
 == Installation ==
 
-Use the dedicated installable plugin ZIP from a future approved release, not a
-GitHub automatic source archive. It must have one top-level directory named
-papijo-h5p-themer-wordpress. Stage G4 prepares stable 0.2.0 locally from the
-accepted 0.2.0-beta.1 baseline. Installation and publication require separate approval.
+Back up first. Deactivate the standalone Anonymous companion. Install the dedicated
+ZIP and activate the main plugin. Initialize absent Theme storage explicitly on
+Papi Jo H5P Themes. Configure Themes, publication and role permissions as needed.
+Anonymous selection requires its separate checkbox. Existing compatible main-plugin
+storage is retained; do not reset data for an ordinary update. See README and
+installation documentation for requirements and legacy-development limitations.
 
-1. Back up the target site and test in staging first. Install official H5P.
-2. Upload the approved ZIP through Plugins > Add New > Upload Plugin and activate.
-3. Single-site activation ensures empty supported State and Profile InnoDB tables;
-   compatible existing records are preserved. Failure leaves the plugin active
-   and shows administrator-only storage diagnostics with a protected retry POST.
-4. Open H5P > Papi Jo H5P Themes (Settings fallback if the H5P parent is absent).
-   Initialize an absent Theme library explicitly. Configure defaults, publication
-   and role access, then use own-Profile Theme/Density preferences.
+== Requirements and limitations ==
 
-Updates that skip activation use read-only detection and explicit retry. Ordinary
-page loads never create/repair storage. No user records, Theme defaults or
-role records are created by activation. Storage setup is independent of SNORDIAN
-runtime suspension. Deactivation/removal preserves data; there is no uninstall
-cleanup or automatic legacy-usermeta migration.
-
-== Frequently Asked Questions ==
-
-= Are Theme and Density linked? =
-No. Theme controls colors; Density uses independent native H5P classes. Changing
-or importing colors does not change Density or personal preferences.
-
-= Is this a fork of SNORDIAN? =
-No. It is independent and conservatively suspends its playback while SNORDIAN is active.
+Single-site WordPress 6.5+, PHP 7.4+, standard MySQL-backed wpdb/mysqli, and InnoDB
+for the two plugin-owned tables. WordPress options may use MyISAM or InnoDB.
+Qualified canonical official H5P integration with Core API exactly 1.28 is required;
+local acceptance used H5P 1.17.10. No universal compatibility certification is claimed.
+Native same-origin iframe/DIV playback only; external/sandboxed embeds, repeated
+content IDs, new IDs inserted after manifest generation and arbitrary admin contexts
+remain excluded. Maximum 64 distinct admitted IDs. Initial 15-second readiness limits
+and a brief anonymous styling delay remain. Deactivation/deletion preserve saved data.
 
 == Changelog ==
+
+= 0.3.0 =
+* Integrated anonymous Theme and Density selection, with default-off administrator permission.
+* Initially collapsed shared selector, browser-local preferences and published custom Themes.
+* Simplified end-user dropdowns while retaining saved Core preferences and administrator options.
+* Quieter collapsed status and accessible legend; existing compatibility/suspension safeguards retained.
 
 = 0.2.1 =
 

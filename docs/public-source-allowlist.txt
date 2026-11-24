@@ -5,13 +5,16 @@ LICENSE
 README.md
 THIRD-PARTY-NOTICES.md
 assets/css/admin.css
+assets/css/anonymous-selector.css
 assets/css/preview.css
 assets/css/profile-preview.css
 assets/css/runtime-readiness.css
 assets/js/admin.js
+assets/js/anonymous-controller.js
 assets/js/profile-preview.js
 assets/js/theme-controller.js
 docs/administration.md
+docs/appearance-guide.md
 docs/architecture.md
 docs/baseline.md
 docs/clean-install-test-plan.md
@@ -28,11 +31,13 @@ docs/phase-1cc-firefox-checklist.md
 docs/phase-1cc-https-investigation.md
 docs/phase-1cc-preflight.md
 docs/phase-1cd-verification.md
+docs/phase-2a-anonymous-php.md
 docs/phase-2a-verification.md
 docs/phase-2ah-deployment.md
 docs/phase-2ah-verification.md
 docs/phase-2ar-deployment.md
 docs/phase-2ar-verification.md
+docs/phase-2b-anonymous-runtime.md
 docs/phase-2b2a-verification.md
 docs/phase-2b2b-verification.md
 docs/phase-2b2c-verification.md
@@ -57,6 +62,9 @@ docs/profile-suspension-ux.md
 docs/profile-theme-preview.md
 docs/public-source-allowlist.txt
 docs/public-source-preparation.md
+docs/release-0.3.0-dev-inputs.json
+docs/release-0.3.0-dev.1-inputs.json
+docs/release-0.3.0-inputs.json
 docs/release-candidate-0.1.1.json
 docs/release-candidate-0.2.0-beta.1.json
 docs/release-candidate-0.2.0.json
@@ -73,6 +81,7 @@ docs/release-g4-inputs.json
 docs/release-notes-0.1.1.md
 docs/release-notes-0.2.0.md
 docs/release-notes-0.2.1.md
+docs/release-notes-0.3.0.md
 docs/release-preparation.md
 docs/release-tooling.md
 docs/release-zip-allowlist.txt
@@ -114,6 +123,10 @@ includes/Admin/class-transfer-admin.php
 includes/Admin/class-transfer-download.php
 includes/Admin/class-transfer-upload.php
 includes/Admin/class-transfer-view.php
+includes/Anonymous/class-appearance-endpoint.php
+includes/Anonymous/class-permission.php
+includes/Anonymous/class-player-grants.php
+includes/Anonymous/class-public-appearance.php
 includes/Compatibility/class-h5p-dependency.php
 includes/Compatibility/class-hook-inspector.php
 includes/Compatibility/class-runtime-policy.php
@@ -134,6 +147,7 @@ includes/Role/class-role-view.php
 includes/Runtime/class-appearance-endpoint.php
 includes/Runtime/class-appearance-service.php
 includes/Runtime/class-css-serializer.php
+includes/Runtime/class-delivery-mode.php
 includes/Runtime/class-playback-registry.php
 includes/Runtime/class-runtime-admission.php
 includes/Runtime/class-theme-attachment.php
@@ -192,6 +206,7 @@ tests/admin-transfer/http-fixture.php
 tests/admin-transfer/mysql-checks.php
 tests/admin-transfer/run.php
 tests/admin-transfer/support.php
+tests/admin/anonymous.php
 tests/admin/browser-behavior.js
 tests/admin/coexistence.php
 tests/admin/headless-browser.js
@@ -221,6 +236,7 @@ tests/profile/activation.php
 tests/profile/installation-fixture.php
 tests/profile/installation-mysql.php
 tests/profile/installation.php
+tests/profile/interface-refinements.php
 tests/profile/memory-store.php
 tests/profile/mysql.php
 tests/profile/preview-behavior.js
@@ -237,6 +253,13 @@ tests/run.php
 tests/runtime/admin-viewer.js
 tests/runtime/admin-viewer.php
 tests/runtime/admission.php
+tests/runtime/anonymous-controller.js
+tests/runtime/anonymous-examples.php
+tests/runtime/anonymous-fixtures.js
+tests/runtime/anonymous-interface.js
+tests/runtime/anonymous-placement.js
+tests/runtime/anonymous-transitions.js
+tests/runtime/anonymous.php
 tests/runtime/attachment.php
 tests/runtime/coexistence.php
 tests/runtime/configuration.php

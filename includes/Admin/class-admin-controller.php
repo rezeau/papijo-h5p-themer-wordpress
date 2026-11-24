@@ -10,6 +10,7 @@ final class Admin_Controller {
 	private $posted = array();
 	private $errors = array();
 	private $role_result = '';
+	private $anonymous_result = '';
 	private $roles;
 	private $transfers;
 	private $download;
@@ -57,6 +58,9 @@ final class Admin_Controller {
 			}
 			return;
 		}
+		if ($op==='anonymous_permission') {
+			$this->anonymous_result=(new \Papijo\H5PThemerWordPress\Anonymous\Permission())->submit($this->posted); return;
+		}
 		if(($this->posted['pjh5pwp_op']??null)==='roles') {
 			$this->role_result=$this->roles()->submit($this->posted);return;
 		}
@@ -86,6 +90,7 @@ final class Admin_Controller {
 		$renderer=new Admin_View($this->url());
 		echo $renderer->render($status,$view,$source,$this->posted,$this->errors,isset($_GET['pjh5pwp_saved']) && '1'===$_GET['pjh5pwp_saved']); // All output escaped by the renderer.
 		if($view==='overview'){echo (new \Papijo\H5PThemerWordPress\Role\Role_View())->render($this->roles(),$this->url(),$this->role_result);}
+		if ($view==='overview') { echo (new \Papijo\H5PThemerWordPress\Anonymous\Permission())->render($this->url(),$this->anonymous_result); }
 	}
 	public function assets( $hook ) {
 		if(!$this->hook || $hook!==$this->hook || !Admin_Service::allowed()) { return; }

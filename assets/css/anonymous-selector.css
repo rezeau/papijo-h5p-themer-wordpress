@@ -1,0 +1,16 @@
+.pjh5pwp-anonymous-selector fieldset { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .5rem .75rem; margin: .75rem 0; padding: .5rem .75rem; }
+.pjh5pwp-anonymous-selector label { display: flex; flex-direction: column; gap: .25rem; min-width: 0; max-width: 100%; margin: 0; }
+.pjh5pwp-anonymous-selector select { margin: 0; max-width: 100%; }
+.pjh5pwp-anonymous-selector button { margin: 0; }
+.pjh5pwp-anonymous-selector [role="status"] { flex-basis: 100%; margin: .35rem 0 0; }
+
+.pjh5pwp-anonymous-selector { margin: .75rem 0; }
+.pjh5pwp-anonymous-selector summary { cursor: pointer; }
+
+/* Keep semantics/live announcements while removing redundant visual content. */
+.pjh5pwp-anonymous-selector legend,
+.pjh5pwp-anonymous-selector details:not([open]) ~ [role="status"][data-pjh5pwp-routine="1"] {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}

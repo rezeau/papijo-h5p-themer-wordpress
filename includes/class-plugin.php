@@ -68,7 +68,11 @@ final class Plugin {
 			array( \Papijo\H5PThemerWordPress\Runtime\WordPress_Context::class, 'playback' ),
 			array( \Papijo\H5PThemerWordPress\Runtime\WordPress_Context::class, 'player_allowed' ) );
 		$plugin->playback->register();
-		$theme_attachment = new \Papijo\H5PThemerWordPress\Runtime\Theme_Attachment( $plugin->playback );
+		$theme_attachment = new \Papijo\H5PThemerWordPress\Runtime\Theme_Attachment( $plugin->playback, null, static function () {
+            $viewer=get_current_user_id();
+            $permission=$viewer===0 ? (new \Papijo\H5PThemerWordPress\Anonymous\Permission())->enabled() : false;
+            return \Papijo\H5PThemerWordPress\Runtime\Delivery_Mode::select($viewer,$permission);
+        } );
 		$theme_attachment->register();
 		$appearance = new \Papijo\H5PThemerWordPress\Runtime\Appearance_Service( static function () use ( $admission ) {
 			// The endpoint separately validates the same-origin frontend caller. is_admin()
@@ -77,6 +81,18 @@ final class Plugin {
 		}, array( $profiles, 'effective' ) );
 		$endpoint = new \Papijo\H5PThemerWordPress\Runtime\Appearance_Endpoint( $appearance, static function () { return get_current_user_id(); } );
 		$endpoint->register();
+        $permission = new \Papijo\H5PThemerWordPress\Anonymous\Permission();
+        $runtime = static function () use ($plugin) {
+            $p=$plugin->compatibility()->evaluate();
+            return \Papijo\H5PThemerWordPress\Compatibility\Runtime_Policy::configured() &&
+                true===($p['future_runtime_permitted']??null) && false===($p['runtime_suspended']??null) && array()===($p['blockers']??null);
+        };
+        $public = new \Papijo\H5PThemerWordPress\Anonymous\Public_Appearance(
+            static function () use ($plugin) { return $plugin->theme_store()->read(); },
+            static function () use ($admission) { return $admission->evaluate(true); }
+        );
+        (new \Papijo\H5PThemerWordPress\Anonymous\Appearance_Endpoint($public,array($permission,'enabled'),$runtime,
+            static function () { return get_current_user_id(); }))->register();
 	}
 
 	/** Native activation may install empty Profile storage; failures remain degraded. */

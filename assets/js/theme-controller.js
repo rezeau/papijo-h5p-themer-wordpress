@@ -3,7 +3,7 @@
   'use strict';
   if (typeof module === 'object' && module.exports) { module.exports = factory(); return; }
   var script = document.currentScript, api = factory();
-  if (!script || window['pjh5pwp-theme-controller']) { return; }
+  if (!script || window['pjh5pwp-theme-controller'] || window.pjh5pwpAnonymousAppearance) { return; }
   try {
     if (script.getAttribute('data-pjh5pwp-bootstrap') === '1') {
       window['pjh5pwp-theme-controller'] = api.bootstrap(window); return;
@@ -62,8 +62,8 @@
     if (!exact(a, ['admission', 'theme', 'color_declarations', 'density']) ||
         !exact(a.admission, ['permitted', 'reason'])) { return null; }
     if (a.admission.permitted === false) {
-      return ['snordian_active', 'runtime_policy', 'admission_unavailable', 'appearance_unavailable'].indexOf(a.admission.reason) !== -1 &&
-        a.theme === null && a.density === null && a.color_declarations === '' ? { suspended: true } : null;
+      return ['snordian_active', 'runtime_policy', 'admission_unavailable', 'appearance_unavailable', 'authentication_changed'].indexOf(a.admission.reason) !== -1 &&
+        a.theme === null && a.density === null && a.color_declarations === '' ? { suspended: true, reason: a.admission.reason } : null;
     }
     if (a.admission.permitted !== true || a.admission.reason !== null ||
         !exact(a.theme, ['source', 'kind', 'id', 'version']) ||
@@ -82,6 +82,11 @@
       if (!matches(theme.id, /^[a-z][a-z0-9_]{0,63}$/) || theme.version !== null) { return null; }
     } else { return null; }
     return { suspended: false, colors: palette, density: a.density.selection };
+  }
+  function expectedAudience(win) {
+    var scripts = win.document.querySelectorAll('script[data-pjh5pwp-bootstrap="1"]');
+    var value = scripts.length === 1 ? scripts[0].getAttribute('data-pjh5pwp-audience') : null;
+    return ['authenticated', 'default'].indexOf(value) >= 0 ? value : null;
   }
   function adminGrant(win) {
     try {
@@ -250,6 +255,8 @@
       diagnostics: function () { return controller ? controller.diagnostics() : []; } };
   }
   function create(win, manifest, readiness) {
+    if (win.pjh5pwpAnonymousAppearance) { return null; }
+    var audience = expectedAudience(win);
     try {
       if (!manifestValid(win, manifest) || win.top !== win || win.H5PEditor ||
           !pageContext(win, manifest.admin_viewer) ||
@@ -579,9 +586,9 @@
           body: 'action=pjh5pwp_appearance&request_id=' + id + (manifest.admin_viewer ?
             '&admin_content_id=' + manifest.admin_viewer.content_id +
             '&admin_nonce=' + manifest.admin_viewer.nonce +
-            '&admin_players=' + encodeURIComponent(manifest.players.map(function (p) { return p.content_id; }).join(',')) : '') });
+            '&admin_players=' + encodeURIComponent(manifest.players.map(function (p) { return p.content_id; }).join(',')) : (audience ? '&expected_audience=' + audience : '')) });
       }).then(function (response) {
-        if (!response.ok || response.redirected || !/^application\/json(?:;|$)/i.test(response.headers.get('Content-Type') || '')) { throw new Error('response'); }
+        if ((!response.ok && response.status !== 409) || response.redirected || !/^application\/json(?:;|$)/i.test(response.headers.get('Content-Type') || '')) { throw new Error('response'); }
         return response.text();
       }).then(function (text) {
         if (token !== generation || !active || !visible()) { return; }
@@ -590,6 +597,14 @@
         // Body delivery can beat a throttled timeout callback, too.
         if (age >= 10000) { invalidate(true); return; }
         var parsed = validate(JSON.parse(text), id, age);
+        if (parsed && parsed.suspended && parsed.reason === 'authentication_changed') {
+          stop();
+          if (!doc.querySelectorAll('[data-pjh5pwp-auth-reload]').length) {
+            var message = doc.createElement('p'); message.setAttribute('data-pjh5pwp-auth-reload', '1'); message.setAttribute('role', 'status');
+            message.textContent = 'Sign-in state changed. Reload this page to use the appropriate H5P appearance.'; doc.body.appendChild(message);
+          }
+          return;
+        }
         if (!parsed || parsed.suspended) { invalidate(true); return; }
         // A response/scan can beat a throttled hard-expiry callback. Never let it
         // conceal an expired grant by simply replacing that grant's deadline.

@@ -8,7 +8,7 @@ import stat
 
 SLUG = 'papijo-h5p-themer-wordpress'
 ENTRY = SLUG + '.php'
-ZIP_POLICY_DIGEST = 'b992b630fda98783b86504394fcd3a0eb5a5911c7690e524fd3a2844aefa77ae'
+ZIP_POLICY_DIGEST = 'd0074b9e5d9494b23eaaa2a4a2570c4e56fa2a88660685f8da8b5ad595c55a09'
 PRODUCTION_DIRS = {'includes', 'assets', 'presets', 'languages', 'licenses'}
 EXCLUDED_ROOTS = {'.local-acceptance', '.git', 'build', 'dist', 'release', 'releases',
                   'node_modules', 'vendor', '.idea', '.vscode'}
@@ -115,8 +115,8 @@ def policy_paths(root, policy, zip_policy=False):
     require(paths == sorted(paths), 'Policy ordering is not deterministic')
     require(len(paths) == len({p.casefold() for p in paths}), 'Duplicate/case-colliding policy entries')
     if zip_policy:
-        require(len(paths) == 93 and digest(('\n'.join(paths) + '\n').encode()) == ZIP_POLICY_DIGEST,
-                'Approved 93-file ZIP policy changed; deliberate policy review required')
+        require(len(paths) == 100 and digest(('\n'.join(paths) + '\n').encode()) == ZIP_POLICY_DIGEST,
+                'Approved 100-file ZIP policy changed; deliberate policy review required')
     return paths
 
 

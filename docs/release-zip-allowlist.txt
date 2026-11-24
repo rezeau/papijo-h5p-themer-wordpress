@@ -1,10 +1,12 @@
 LICENSE
 THIRD-PARTY-NOTICES.md
 assets/css/admin.css
+assets/css/anonymous-selector.css
 assets/css/preview.css
 assets/css/profile-preview.css
 assets/css/runtime-readiness.css
 assets/js/admin.js
+assets/js/anonymous-controller.js
 assets/js/profile-preview.js
 assets/js/theme-controller.js
 includes/Admin/class-admin-controller.php
@@ -18,6 +20,10 @@ includes/Admin/class-transfer-admin.php
 includes/Admin/class-transfer-download.php
 includes/Admin/class-transfer-upload.php
 includes/Admin/class-transfer-view.php
+includes/Anonymous/class-appearance-endpoint.php
+includes/Anonymous/class-permission.php
+includes/Anonymous/class-player-grants.php
+includes/Anonymous/class-public-appearance.php
 includes/Compatibility/class-h5p-dependency.php
 includes/Compatibility/class-hook-inspector.php
 includes/Compatibility/class-runtime-policy.php
@@ -38,6 +44,7 @@ includes/Role/class-role-view.php
 includes/Runtime/class-appearance-endpoint.php
 includes/Runtime/class-appearance-service.php
 includes/Runtime/class-css-serializer.php
+includes/Runtime/class-delivery-mode.php
 includes/Runtime/class-playback-registry.php
 includes/Runtime/class-runtime-admission.php
 includes/Runtime/class-theme-attachment.php

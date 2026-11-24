@@ -1,4 +1,14 @@
-# WordPress administration — Phase 1C-B
+# WordPress administration — 0.3.0
+
+The current Themes overview includes an independent, default-off anonymous visitor
+permission. It does not grant authenticated role permissions or alter user Profiles.
+Published custom Themes are available in the anonymous selector; unpublished Themes
+are not selectable. Administrator Core/default and Theme-management choices remain
+unchanged by end-user dropdown simplification. See [appearance guide](appearance-guide.md)
+and [installation](installation.md). Active SNORDIAN suspends playback, not Theme management.
+
+The following sections retain historical architecture/checkpoint evidence.
+
 
 Current status, 11 November 2026: the implemented feature set and Stages A/B/C have been deployed locally and manually accepted in Firefox (maintainer confirmation). See [README](../README.md) and [installation](installation.md) for current behavior. Phase-specific statements below retain their checkpoint context. In particular, runtime is now default-on and compatibility-gated, activation installs Profile storage, and active SNORDIAN suppresses own-Profile selectors/preview as well as Papi Jo playback; the older isolated-preview behavior is superseded. The slow-network readiness limitation remains unresolved.
 

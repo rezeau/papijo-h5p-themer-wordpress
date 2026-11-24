@@ -82,4 +82,37 @@ same( 64, count( $bounded_attachment->manifest()['players'] ), 'Bounded manifest
 $content['id'] = 65; $bounded->observe( '<div class="h5p-content" data-content-id="65"></div>', $content );
 same( null, $bounded_attachment->manifest(), 'Over-limit page fails closed without expanding observers' );
 same( null, ( new Theme_Attachment( $bounded, static function () { return 'true'; } ) )->manifest(), 'Truthy non-boolean switch never enables' );
+
+// Integrated anonymous path: no takeover, no readiness concealment, one selected asset.
+function is_admin(){return false;}
+function wp_doing_ajax(){return false;}
+function did_action($hook){return 1;}
+function is_preview(){return false;}
+function is_customize_preview(){return false;}
+function is_embed(){return false;}
+function is_feed(){return false;}
+function wp_create_nonce($action){return substr(hash('sha256',$action),0,10);}
+$_SERVER=array('REQUEST_METHOD'=>'GET','REQUEST_URI'=>'/lesson/','HTTP_SEC_FETCH_DEST'=>'document');
+$single=new Playback_Registry($gate,static function(){return true;});
+$content['id']=10;$single->observe($html,$content);
+$mode='anonymous';$assets=array();$GLOBALS['readiness_styles']=array();
+$anonymous=new Theme_Attachment($single,static function(){return true;},static function()use(&$mode){return $mode;});
+$anonymous->enqueue();
+same(1,count($assets),'Exactly one anonymous controller');
+same(Theme_Attachment::ANONYMOUS_HANDLE,$assets[0][0],'Direct anonymous handle');
+same('pjh5pwp-anonymous-selector',$GLOBALS['readiness_styles'][0][0],'Selector CSS only');
+same($html,$anonymous->mark($html,$content),'Anonymous content is never readiness concealed');
+same('',$anonymous->tag($tag,Theme_Attachment::HANDLE),'Main controller excluded');
+$anon_tag=$anonymous->tag($tag,Theme_Attachment::ANONYMOUS_HANDLE);
+same(true,strpos($anon_tag,'data-pjh5pwp-anonymous="1"')!==false,'Anonymous bootstrap metadata');
+ob_start();$anonymous->footer();$out=ob_get_clean();
+same(1,substr_count($out,'data-pjh5pwp-anonymous-grants='),'One bound grants set');
+same(1,substr_count($out,'data-pjh5pwp-manifest='),'One player manifest');
+$mode='default';same('',$anonymous->tag($tag,Theme_Attachment::ANONYMOUS_HANDLE),'Late permission change does not hand off controllers');
+$policy['blockers']=array('snordian_active');$policy['runtime_suspended']=true;$policy['future_runtime_permitted']=false;
+$mode='anonymous';same('',$anonymous->tag($tag,Theme_Attachment::ANONYMOUS_HANDLE),'Fresh suspension rejects anonymous asset');
+ob_start();$anonymous->footer();same('',ob_get_clean(),'Suspension emits no grants');
+$policy=array('future_runtime_permitted'=>true,'runtime_suspended'=>false,'blockers'=>array());
+$none=new Theme_Attachment($empty,static function(){return true;},static function(){return 'anonymous';});
+ob_start();$none->footer();same('',ob_get_clean(),'No activity means no manifest or grants');
 echo 'Phase 2B-2C attachment: ' . $checks . " assertions passed; source-only fixtures.\n";

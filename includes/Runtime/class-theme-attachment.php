@@ -6,12 +6,16 @@ use Papijo\H5PThemerWordPress\Compatibility\Runtime_Policy;
 final class Theme_Attachment {
 
 	const HANDLE = 'pjh5pwp-theme-controller';
-	const ASSET_VERSION = '0.2.0-beta.1-viewer-1';
+	const ASSET_VERSION = '0.3.0';
+	const ANONYMOUS_HANDLE = 'pjh5pwp-anonymous-controller';
 	private $playback;
 	private $enabled;
 	private $admin_grant;
-	public function __construct( Playback_Registry $playback, ?callable $enabled = null ) {
+	private $mode;
+	private $selected_mode;
+	public function __construct( Playback_Registry $playback, ?callable $enabled = null, ?callable $mode = null ) {
 		$this->playback = $playback;
+		$this->mode=$mode ?: static function(){return 'default';};
 		$this->enabled = $enabled ?: array( Runtime_Policy::class, 'configured' );
 	}
 	private function enabled() {
@@ -29,7 +33,7 @@ final class Theme_Attachment {
 		add_filter( 'script_loader_tag', array( $this, 'tag' ), PHP_INT_MAX, 2 );
 	}
 	public function manifest() {
-		if ( ! $this->enabled() ) { return null; }
+		if ( ! $this->eligible() ) { return null; }
 		$players = $this->playback->candidates(); // Fresh shared policy AND frontend context.
 		if ( ! $players || count( $players ) > 64 ) { return null; }
 		$endpoint = admin_url( 'admin-ajax.php' );
@@ -54,16 +58,27 @@ final class Theme_Attachment {
 	public function admin_enqueue() { if ( null !== WordPress_Context::admin_viewer_id() ) { $this->enqueue(); } }
 	public function admin_footer() { if ( null !== WordPress_Context::admin_viewer_id() ) { $this->footer(); } }
 	public function enqueue() {
-		if ( ! $this->eligible() ) { return; }
+		if ( ! $this->eligible() || $this->selected_mode!==null ) { return; }
+		$this->selected_mode=$this->delivery_mode();
+		if ($this->selected_mode==='anonymous') {
+			wp_enqueue_style('pjh5pwp-anonymous-selector',plugins_url('assets/css/anonymous-selector.css',PJH5PWP_FILE),array(),self::ASSET_VERSION);
+			wp_enqueue_script(self::ANONYMOUS_HANDLE,plugins_url('assets/js/anonymous-controller.js',PJH5PWP_FILE),array(),self::ASSET_VERSION,false);
+			return;
+		}
 		wp_enqueue_style( 'pjh5pwp-runtime-readiness', plugins_url( 'assets/css/runtime-readiness.css', PJH5PWP_FILE ), array(), self::ASSET_VERSION );
 		wp_enqueue_script( self::HANDLE, plugins_url( 'assets/js/theme-controller.js', PJH5PWP_FILE ), array(), self::ASSET_VERSION, false );
 	}
+	/** Direct controller selection; never dequeue or replace another controller. */
+    public function delivery_mode() {
+        try { return call_user_func($this->mode); } catch (\Throwable $error) { return 'none'; }
+    }
 	private function eligible() {
-		return $this->enabled() && $this->playback->attachment_permitted() &&
+		return $this->enabled() && in_array($this->delivery_mode(),array('authenticated','default','anonymous'),true) && $this->playback->attachment_permitted() &&
 			WordPress_Context::origin( admin_url('admin-ajax.php') ) !== null &&
 			WordPress_Context::origin( admin_url('admin-ajax.php') ) === WordPress_Context::origin( home_url('/') );
 	}
 	public function mark( $html, $content ) {
+		if ($this->delivery_mode()==='anonymous') { return $html; }
 		$manifest = $this->manifest();
 		if ( null === $manifest || ! is_array($content) ) { return $html; }
 		foreach ( $manifest['players'] as $p ) {
@@ -79,13 +94,28 @@ final class Theme_Attachment {
 	}
 	public function footer() {
 		$manifest = $this->manifest();
+		if (null!==$manifest && $this->delivery_mode()==='anonymous') {
+			$page=\Papijo\H5PThemerWordPress\Anonymous\Player_Grants::page($_SERVER['REQUEST_URI']??null);
+			$grants=$page ? \Papijo\H5PThemerWordPress\Anonymous\Player_Grants::issue($page,$manifest['players']):null;
+			if (!$grants) { return; }
+			echo '<span hidden data-pjh5pwp-anonymous-grants="'.esc_attr(wp_json_encode($grants)).'"></span>';
+		}
 		if ( null !== $manifest ) { echo '<span hidden data-pjh5pwp-manifest="'.esc_attr(wp_json_encode($manifest)).'"></span>'; }
 	}
 	public function tag( $tag, $handle ) {
-		if ( self::HANDLE !== $handle ) { return $tag; }
+		if (!in_array($handle,array(self::HANDLE,self::ANONYMOUS_HANDLE),true)) { return $tag; }
+		$mode=$this->delivery_mode();
+		if ($this->selected_mode!==null && $this->selected_mode!==$mode) { return ''; }
+		if (($handle===self::ANONYMOUS_HANDLE)!==($mode==='anonymous')) { return ''; }
 		if ( ! $this->eligible() || 1 !== substr_count($tag, '<script ') ||
 			preg_match('/\s(?:async|defer)(?:\s|=|>)/i', $tag) || preg_match('/\stype\s*=\s*[\x22\x27]?module/i', $tag) || strpos($tag, 'data-pjh5pwp-') !== false ) { return ''; }
-		$attributes = ' data-pjh5pwp-bootstrap="1"';
+		if ($mode==='anonymous') {
+			$page=\Papijo\H5PThemerWordPress\Anonymous\Player_Grants::page($_SERVER['REQUEST_URI']??null);
+			if (!$page || !WordPress_Context::frontend()) { return ''; }
+			$config=array('version'=>1,'page'=>$page,'endpoint'=>admin_url('admin-ajax.php'),'home'=>home_url('/'));
+			return str_replace('<script ','<script data-pjh5pwp-anonymous="1" data-pjh5pwp-anonymous-config="'.esc_attr(wp_json_encode($config)).'" ',$tag);
+		}
+		$attributes = ' data-pjh5pwp-bootstrap="1" data-pjh5pwp-audience="'.esc_attr($mode).'"';
 		if ( function_exists( 'is_admin' ) && is_admin() ) {
 			$grant = $this->admin_grant();
 			if ( null === $grant ) { return ''; }

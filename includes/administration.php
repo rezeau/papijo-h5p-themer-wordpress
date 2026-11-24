@@ -1,6 +1,7 @@
 <?php
 /** Inert administration definitions. @license GPL-3.0-or-later */
 require_once __DIR__ . '/roles.php';
+require_once __DIR__ . '/Anonymous/class-permission.php';
 require_once __DIR__ . '/Admin/class-admin-service.php';
 require_once __DIR__ . '/Admin/class-admin-messages.php';
 require_once __DIR__ . '/theme-export.php';
